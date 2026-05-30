@@ -1,0 +1,161 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import { Report, Category } from '@/lib/types'
+import { confirmIssue } from '@/lib/actions'
+
+const CAT: Record<Category, { emoji: string; label: string; pill: string }> = {
+  Pothole:      { emoji: '🕳️', label: 'Pothole',      pill: 'bg-orange-50 text-orange-700 border-orange-200' },
+  Garbage:      { emoji: '🗑️', label: 'Garbage',      pill: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  Waterlogging: { emoji: '🌊', label: 'Waterlogging', pill: 'bg-blue-50 text-blue-700 border-blue-200' },
+  Streetlight:  { emoji: '💡', label: 'Streetlight',  pill: 'bg-amber-50 text-amber-700 border-amber-200' },
+  Other:        { emoji: '📍', label: 'Other',        pill: 'bg-stone-100 text-stone-700 border-stone-200' },
+}
+
+const URGENCY = (n: number) => {
+  if (n >= 20) return { label: 'CRITICAL', cls: 'bg-red-50 text-red-600 border-red-200' }
+  if (n >= 10) return { label: 'HIGH',     cls: 'bg-orange-50 text-orange-600 border-orange-200' }
+  if (n >= 5)  return { label: 'MODERATE', cls: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
+  return null
+}
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 1) return 'just now'
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
+}
+
+interface ReportCardProps {
+  report: Report
+  sessionId: string
+  isConfirmedInitial: boolean
+  onConfirmStateChange: (id: string) => void
+}
+
+export default function ReportCard({
+  report,
+  sessionId,
+  isConfirmedInitial,
+  onConfirmStateChange,
+}: ReportCardProps) {
+  const [confirmed, setConfirmed] = useState(isConfirmedInitial)
+  const [count, setCount]         = useState(report.confirmations_count)
+  const [loading, setLoading]     = useState(false)
+  const [imgErr, setImgErr]       = useState(false)
+
+  const handleConfirm = async () => {
+    if (confirmed || loading || !sessionId) return
+    setConfirmed(true)
+    setCount((p) => p + 1)
+    setLoading(true)
+
+    const res = await confirmIssue(report.id, sessionId)
+    if (!res.success && !res.already_confirmed) {
+      setConfirmed(false)
+      setCount((p) => Math.max(0, p - 1))
+    } else if (res.new_count !== undefined) {
+      setCount(res.new_count)
+    }
+    onConfirmStateChange(report.id)
+    setLoading(false)
+  }
+
+  const cat     = CAT[report.category] ?? CAT.Other
+  const urgency = URGENCY(count)
+
+  return (
+    <div className="bg-white border border-[#1A1208]/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+
+      {/* Image — full width if present */}
+      {report.image_url && !imgErr && (
+        <div className="relative w-full h-40 bg-[#FDFAF7]">
+          <Image
+            src={report.image_url}
+            alt={report.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, 576px"
+            onError={() => setImgErr(true)}
+          />
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="p-4">
+        {/* Badges row */}
+        <div className="flex items-center gap-1.5 flex-wrap mb-2.5">
+          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${cat.pill}`}>
+            {cat.emoji} {cat.label}
+          </span>
+          {urgency && (
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${urgency.cls}`}>
+              {urgency.label}
+            </span>
+          )}
+          <span className="ml-auto text-[10px] text-[#1A1208]/40 font-medium">
+            {timeAgo(report.created_at)}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3
+          className="font-extrabold text-[#1A1208] text-base leading-snug mb-1"
+          style={{ fontFamily: 'var(--font-syne), sans-serif' }}
+        >
+          {report.title}
+        </h3>
+
+        {/* Address */}
+        <p className="text-[11px] text-[#1A1208]/45 font-medium mb-1">
+          📍 {report.address_text || report.area_name}
+        </p>
+
+        {/* Description */}
+        {report.description && (
+          <p className="text-xs text-[#1A1208]/60 leading-relaxed line-clamp-2 mb-3">
+            {report.description}
+          </p>
+        )}
+
+        {/* Divider */}
+        <div className="border-t border-[#1A1208]/6 pt-3 flex items-center justify-between">
+          {/* Status */}
+          <div className="flex items-center gap-1.5">
+            <span className={`w-1.5 h-1.5 rounded-full ${
+              report.status === 'active' ? 'bg-green-500' :
+              report.status === 'in_review' ? 'bg-blue-500' : 'bg-zinc-400'
+            }`} />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#1A1208]/50">
+              {report.status === 'in_review' ? 'In Review' : report.status || 'Active'}
+            </span>
+          </div>
+
+          {/* Votes + Button */}
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs font-bold text-[#1A1208]/70 tabular-nums">
+              👥 {count} {count === 1 ? 'vote' : 'votes'}
+            </span>
+            <button
+              onClick={handleConfirm}
+              disabled={confirmed || loading}
+              className={`text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all active:scale-95 ${
+                confirmed
+                  ? 'bg-emerald-50 border-emerald-200 text-emerald-700 cursor-default'
+                  : loading
+                    ? 'bg-[#E8520A]/40 text-white border-transparent cursor-wait'
+                    : 'bg-[#E8520A] text-white border-transparent hover:bg-[#d4480a] shadow-sm'
+              }`}
+            >
+              {confirmed ? '✓ Confirmed' : loading ? '…' : '👍 Confirm'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
