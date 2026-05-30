@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "feed": "Feed",
+    "report": "Report",
+    "map": "Map",
+    "reportIssue": "+ Report Issue",
+    "tagline": "Hyderabad Portal"
+  },
+  "feed": {
+    "title": "Live Incidents Tracker",
+    "subtitle": "Monitor community submissions across Hyderabad areas in real-time.",
+    "openIssues": "{count} open issues tracked",
+    "noIssues": "No open issues here",
+    "allClear": "All clear in Hyderabad!",
+    "tryDifferentArea": "Try a different area",
+    "realtimeUpdate": "Updates in real-time"
+  },
+  "filters": {
+    "allNeighborhoods": "All Neighborhoods",
+    "sortBy": "Sort by",
+    "recent": "Recent",
+    "urgent": "Urgent"
+  },
+  "card": {
+    "votes": "{count} votes",
+    "vote": "1 vote",
+    "confirm": "Confirm",
+    "confirmed": "Confirmed",
+    "inReview": "In Review",
+    "active": "Active",
+    "justNow": "just now",
+    "minutesAgo": "{m}m ago",
+    "hoursAgo": "{h}h ago",
+    "daysAgo": "{d}d ago"
+  },
+  "categories": {
+    "Pothole": "Pothole",
+    "Garbage": "Garbage",
+    "Waterlogging": "Waterlogging",
+    "Streetlight": "Streetlight",
+    "Other": "Other"
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { SortOption } from '@/lib/types'
+import { useTranslations } from 'next-intl'
 
 // ── SEGMENT: AREAS LIST ──────────────────────────────────────────────────────
 // Add or remove areas here. 'All' must stay first.
@@ -32,7 +33,7 @@ export default function FeedFilters({
   onSortChange,
   layout = 'inline',
 }: FeedFiltersProps) {
-
+  const t = useTranslations('filters')
   const isSidebar = layout === 'sidebar'
 
   return (

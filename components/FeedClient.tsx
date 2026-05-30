@@ -7,6 +7,7 @@ import { useRealtimeFeed } from '@/lib/realtime'
 import { getSessionId } from '@/lib/session'
 import ReportCard from './ReportCard'
 import FeedFilters from './FeedFilters'
+import { useTranslations } from 'next-intl'
 
 interface FeedClientProps {
   initialReports: Report[]
@@ -18,7 +19,8 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
   const [confirmedIds, setConfirmedIds] = useState<Set<string>>(new Set(initialConfirmedIds))
   const [area, setArea]                 = useState<string>('All')
   const [sortBy, setSortBy]             = useState<SortOption>('recent')
-
+  const t = useTranslations('feed')
+  
   const reports = useRealtimeFeed(initialReports)
 
   useEffect(() => {

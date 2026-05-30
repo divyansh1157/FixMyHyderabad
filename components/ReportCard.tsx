@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Report, Category } from '@/lib/types'
 import { confirmIssue } from '@/lib/actions'
+import { useTranslations } from 'next-intl'
 
 // ── SEGMENT: CATEGORY CONFIG ─────────────────────────────────────────────────
 // Add a new category here if you add one to the DB.
@@ -54,7 +55,8 @@ export default function ReportCard({
   const [count, setCount]         = useState(report.confirmations_count)
   const [loading, setLoading]     = useState(false)
   const [imgErr, setImgErr]       = useState(false)
-
+  const t = useTranslations('card')
+  
   const handleConfirm = async () => {
     if (confirmed || loading || !sessionId) return
     setConfirmed(true)

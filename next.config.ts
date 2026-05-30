@@ -1,4 +1,7 @@
 import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'  // ← ADD this
+
+const withNextIntl = createNextIntlPlugin()           // ← ADD this
 
 const nextConfig: NextConfig = {
   images: {
@@ -12,4 +15,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withNextIntl(nextConfig)  // ← CHANGE this line (was `export default nextConfig`)

@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "feed": "فیڈ",
+    "report": "رپورٹ",
+    "map": "نقشہ",
+    "reportIssue": "+ مسئلہ رپورٹ کریں",
+    "tagline": "حیدرآباد پورٹل"
+  },
+  "feed": {
+    "title": "لائیو واقعات ٹریکر",
+    "subtitle": "حیدرآباد کے علاقوں میں کمیونٹی رپورٹس کو ریئل ٹائم میں دیکھیں۔",
+    "openIssues": "{count} مسائل درج ہیں",
+    "noIssues": "یہاں کوئی مسئلہ نہیں",
+    "allClear": "حیدرآباد میں سب ٹھیک ہے!",
+    "tryDifferentArea": "کوئی اور علاقہ آزمائیں",
+    "realtimeUpdate": "ریئل ٹائم اپڈیٹس"
+  },
+  "filters": {
+    "allNeighborhoods": "تمام محلے",
+    "sortBy": "ترتیب دیں",
+    "recent": "حالیہ",
+    "urgent": "فوری"
+  },
+  "card": {
+    "votes": "{count} ووٹ",
+    "vote": "1 ووٹ",
+    "confirm": "تصدیق کریں",
+    "confirmed": "تصدیق شدہ",
+    "inReview": "جائزہ میں",
+    "active": "فعال",
+    "justNow": "ابھی",
+    "minutesAgo": "{m} منٹ پہلے",
+    "hoursAgo": "{h} گھنٹے پہلے",
+    "daysAgo": "{d} دن پہلے"
+  },
+  "categories": {
+    "Pothole": "گڑھا",
+    "Garbage": "کچرا",
+    "Waterlogging": "پانی بھراؤ",
+    "Streetlight": "سڑک کی بتی",
+    "Other": "دیگر"
+  }
+}
