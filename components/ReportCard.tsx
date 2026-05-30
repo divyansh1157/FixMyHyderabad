@@ -5,6 +5,10 @@ import Image from 'next/image'
 import { Report, Category } from '@/lib/types'
 import { confirmIssue } from '@/lib/actions'
 
+// ── SEGMENT: CATEGORY CONFIG ─────────────────────────────────────────────────
+// Add a new category here if you add one to the DB.
+// pill = tailwind classes for the badge color
+// ─────────────────────────────────────────────────────────────────────────────
 const CAT: Record<Category, { emoji: string; label: string; pill: string }> = {
   Pothole:      { emoji: '🕳️', label: 'Pothole',      pill: 'bg-orange-50 text-orange-700 border-orange-200' },
   Garbage:      { emoji: '🗑️', label: 'Garbage',      pill: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
@@ -13,6 +17,9 @@ const CAT: Record<Category, { emoji: string; label: string; pill: string }> = {
   Other:        { emoji: '📍', label: 'Other',        pill: 'bg-stone-100 text-stone-700 border-stone-200' },
 }
 
+// ── SEGMENT: URGENCY THRESHOLDS ──────────────────────────────────────────────
+// Change the numbers (20, 10, 5) to adjust when urgency badges appear
+// ─────────────────────────────────────────────────────────────────────────────
 const URGENCY = (n: number) => {
   if (n >= 20) return { label: 'CRITICAL', cls: 'bg-red-50 text-red-600 border-red-200' }
   if (n >= 10) return { label: 'HIGH',     cls: 'bg-orange-50 text-orange-600 border-orange-200' }
@@ -23,7 +30,7 @@ const URGENCY = (n: number) => {
 function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime()
   const m = Math.floor(diff / 60000)
-  if (m < 1) return 'just now'
+  if (m < 1)  return 'just now'
   if (m < 60) return `${m}m ago`
   const h = Math.floor(m / 60)
   if (h < 24) return `${h}h ago`
@@ -69,24 +76,32 @@ export default function ReportCard({
   const urgency = URGENCY(count)
 
   return (
-    <div className="bg-white border border-[#1A1208]/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    // ── SEGMENT: CARD SHELL ─────────────────────────────────────────────────
+    // hover:shadow-md = subtle lift on hover (desktop feel)
+    // h-full = makes cards in a grid row equal height
+    // ───────────────────────────────────────────────────────────────────────
+    <div className="bg-white border border-[#1A1208]/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full flex flex-col">
 
-      {/* Image — full width if present */}
+      {/* ── SEGMENT: CARD IMAGE ─────────────────────────────────────────────
+          h-44 on desktop for a taller image in the 2-col grid.
+          Change h-44 to any value. Remove this block to hide images entirely.
+      ──────────────────────────────────────────────────────────────────── */}
       {report.image_url && !imgErr && (
-        <div className="relative w-full h-40 bg-[#FDFAF7]">
+        <div className="relative w-full h-36 sm:h-44 bg-[#FDFAF7] shrink-0">
           <Image
             src={report.image_url}
             alt={report.title}
             fill
             className="object-cover"
-            sizes="(max-width: 640px) 100vw, 576px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             onError={() => setImgErr(true)}
           />
         </div>
       )}
 
-      {/* Content */}
-      <div className="p-4">
+      {/* Content — flex-1 so footer always sticks to bottom in equal-height grid */}
+      <div className="p-4 flex flex-col flex-1">
+
         {/* Badges row */}
         <div className="flex items-center gap-1.5 flex-wrap mb-2.5">
           <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${cat.pill}`}>
@@ -97,7 +112,7 @@ export default function ReportCard({
               {urgency.label}
             </span>
           )}
-          <span className="ml-auto text-[10px] text-[#1A1208]/40 font-medium">
+          <span className="ml-auto text-[10px] text-[#1A1208]/40 font-medium shrink-0">
             {timeAgo(report.created_at)}
           </span>
         </div>
@@ -122,28 +137,34 @@ export default function ReportCard({
           </p>
         )}
 
-        {/* Divider */}
-        <div className="border-t border-[#1A1208]/6 pt-3 flex items-center justify-between">
+        {/* Spacer to push footer down */}
+        <div className="flex-1" />
+
+        {/* ── SEGMENT: CARD FOOTER ──────────────────────────────────────────
+            Status dot + votes + confirm button.
+            To remove voting: delete the entire "Votes + Button" block.
+        ──────────────────────────────────────────────────────────────── */}
+        <div className="border-t border-[#1A1208]/6 pt-3 flex items-center justify-between gap-2">
           {/* Status */}
           <div className="flex items-center gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${
-              report.status === 'active' ? 'bg-green-500' :
-              report.status === 'in_review' ? 'bg-blue-500' : 'bg-zinc-400'
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+              report.status === 'active'    ? 'bg-green-500' :
+              report.status === 'in_review' ? 'bg-blue-500'  : 'bg-zinc-400'
             }`} />
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#1A1208]/50">
               {report.status === 'in_review' ? 'In Review' : report.status || 'Active'}
             </span>
           </div>
 
-          {/* Votes + Button */}
-          <div className="flex items-center gap-2.5">
-            <span className="text-xs font-bold text-[#1A1208]/70 tabular-nums">
+          {/* Votes + Confirm */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#1A1208]/70 tabular-nums whitespace-nowrap">
               👥 {count} {count === 1 ? 'vote' : 'votes'}
             </span>
             <button
               onClick={handleConfirm}
               disabled={confirmed || loading}
-              className={`text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all active:scale-95 ${
+              className={`text-xs font-bold px-3.5 py-1.5 rounded-full border transition-all active:scale-95 whitespace-nowrap ${
                 confirmed
                   ? 'bg-emerald-50 border-emerald-200 text-emerald-700 cursor-default'
                   : loading
