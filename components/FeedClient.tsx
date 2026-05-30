@@ -20,7 +20,7 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
   const [area, setArea]                 = useState<string>('All')
   const [sortBy, setSortBy]             = useState<SortOption>('recent')
   const t = useTranslations('feed')
-  
+
   const reports = useRealtimeFeed(initialReports)
 
   useEffect(() => {
@@ -42,42 +42,30 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
     })
 
   // ── SEGMENT: STATS — quick numbers shown in the sidebar on desktop
-  // Add/remove stat objects here to change what's displayed
   const stats = [
-    { label: 'Open Issues',  value: filtered.length,                          emoji: '📋' },
-    { label: 'Total Reports',value: reports?.length ?? 0,                     emoji: '📊' },
-    { label: 'Areas Active', value: new Set(reports?.map(r => r.area_name) ?? []).size, emoji: '📍' },
+    { label: 'Open Issues',   value: filtered.length,                                           emoji: '📋' },
+    { label: 'Total Reports', value: reports?.length ?? 0,                                      emoji: '📊' },
+    { label: 'Areas Active',  value: new Set(reports?.map(r => r.area_name) ?? []).size,        emoji: '📍' },
   ]
 
   return (
-    // ── SEGMENT: PAGE LAYOUT ─────────────────────────────────────────────
-    // lg:grid-cols-[280px_1fr] = sidebar + feed on desktop
-    // Change 280px to make sidebar wider/narrower
-    // Remove lg:grid-cols-... to go single-column everywhere
-    // ─────────────────────────────────────────────────────────────────────
     <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8 xl:grid-cols-[320px_1fr]">
 
-      {/* ── SEGMENT: SIDEBAR (desktop only) ──────────────────────────────
-          Hidden on mobile/tablet. Shows on lg+ screens.
-          Move anything here you want pinned on the left on desktop.
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── SIDEBAR (desktop only) ── */}
       <aside className="hidden lg:flex flex-col gap-4 sticky top-24 self-start">
 
-        {/* Banner — condensed version of the mobile banner */}
         <div className="bg-[#E8520A] rounded-2xl p-5 text-white shadow-md">
           <h1
             className="font-extrabold text-2xl mb-2 tracking-tight leading-tight"
             style={{ fontFamily: 'var(--font-syne), sans-serif' }}
           >
-            Live Incidents Tracker
+            {t('title')}
           </h1>
           <p className="text-xs text-orange-50/90 leading-relaxed">
-            Monitor community submissions across Hyderabad in real-time.
-            Confirm incidents to accelerate municipal verification routing.
+            {t('subtitle')}
           </p>
         </div>
 
-        {/* Stats cards */}
         <div className="grid grid-cols-1 gap-2">
           {stats.map(({ label, value, emoji }) => (
             <div
@@ -98,7 +86,6 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
           ))}
         </div>
 
-        {/* Filters — pinned in sidebar on desktop */}
         <FeedFilters
           area={area}
           sortBy={sortBy}
@@ -107,37 +94,32 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
           layout="sidebar"
         />
 
-        {/* ── SEGMENT: SIDEBAR FOOTER ─────────────────────────────────────
-            Great place to add: about text, links, social, etc.
-        ──────────────────────────────────────────────────────────────── */}
         <div className="text-[10px] text-[#1A1208]/30 leading-relaxed px-1">
-          Data updates in real-time via Supabase. Issues are routed to GHMC for municipal action.
+          {t('realtimeUpdate')}
         </div>
 
       </aside>
 
-      {/* ── SEGMENT: MAIN FEED COLUMN ────────────────────────────────────
-          This is what both mobile and desktop see (sidebar is extra on lg+)
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── MAIN FEED COLUMN ── */}
       <div className="w-full space-y-4">
 
-        {/* Mobile-only banner (hidden on desktop where sidebar shows it) */}
+        {/* Mobile-only banner */}
         <div className="lg:hidden bg-[#E8520A] rounded-2xl p-5 text-white shadow-md">
           <h1
             className="font-extrabold text-xl mb-1 tracking-tight leading-tight"
             style={{ fontFamily: 'var(--font-syne), sans-serif' }}
           >
-            Live Incidents Tracker
+            {t('title')}
           </h1>
           <p className="text-xs text-orange-50/90 leading-relaxed">
-            Monitor community submissions across Hyderabad areas in real-time.
+            {t('subtitle')}
           </p>
           <span className="inline-block mt-3 text-[10px] font-bold bg-white/20 px-2.5 py-1 rounded-full">
-            {filtered.length} open issue{filtered.length !== 1 ? 's' : ''} tracked
+            {t('openIssues', { count: filtered.length })}
           </span>
         </div>
 
-        {/* Mobile-only filters (desktop sees them in sidebar) */}
+        {/* Mobile-only filters */}
         <div className="lg:hidden">
           <FeedFilters
             area={area}
@@ -154,25 +136,21 @@ export default function FeedClient({ initialReports, initialConfirmedIds }: Feed
             className="font-extrabold text-[#1A1208] text-lg"
             style={{ fontFamily: 'var(--font-syne), sans-serif' }}
           >
-            {filtered.length} open issue{filtered.length !== 1 ? 's' : ''}
+            {t('openIssues', { count: filtered.length })}
           </h2>
           <span className="text-xs text-[#1A1208]/40 font-medium">
-            Updates in real-time
+            {t('realtimeUpdate')}
           </span>
         </div>
 
-        {/* ── SEGMENT: FEED GRID ──────────────────────────────────────────
-            Mobile: single column
-            md (tablet): 2 columns
-            xl (wide desktop): 3 columns (uncomment xl:grid-cols-3 below)
-            Change grid-cols-* to adjust the layout
-        ──────────────────────────────────────────────────────────────── */}
         {filtered.length === 0 ? (
           <div className="text-center py-20 text-[#1A1208]/30">
             <p className="text-4xl mb-3">🎉</p>
-            <p className="text-sm font-semibold text-[#1A1208]/50">No open issues here</p>
+            <p className="text-sm font-semibold text-[#1A1208]/50">
+              {area !== 'All' ? t('noIssues') : t('allClear')}
+            </p>
             <p className="text-xs mt-1">
-              {area !== 'All' ? 'Try a different area' : 'All clear in Hyderabad!'}
+              {area !== 'All' ? t('tryDifferentArea') : ''}
             </p>
           </div>
         ) : (

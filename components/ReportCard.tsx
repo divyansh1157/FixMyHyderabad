@@ -7,35 +7,20 @@ import { confirmIssue } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
 
 // ── SEGMENT: CATEGORY CONFIG ─────────────────────────────────────────────────
-// Add a new category here if you add one to the DB.
-// pill = tailwind classes for the badge color
-// ─────────────────────────────────────────────────────────────────────────────
-const CAT: Record<Category, { emoji: string; label: string; pill: string }> = {
-  Pothole:      { emoji: '🕳️', label: 'Pothole',      pill: 'bg-orange-50 text-orange-700 border-orange-200' },
-  Garbage:      { emoji: '🗑️', label: 'Garbage',      pill: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  Waterlogging: { emoji: '🌊', label: 'Waterlogging', pill: 'bg-blue-50 text-blue-700 border-blue-200' },
-  Streetlight:  { emoji: '💡', label: 'Streetlight',  pill: 'bg-amber-50 text-amber-700 border-amber-200' },
-  Other:        { emoji: '📍', label: 'Other',        pill: 'bg-stone-100 text-stone-700 border-stone-200' },
+const CAT: Record<Category, { emoji: string; pill: string }> = {
+  Pothole:      { emoji: '🕳️', pill: 'bg-orange-50 text-orange-700 border-orange-200' },
+  Garbage:      { emoji: '🗑️', pill: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  Waterlogging: { emoji: '🌊', pill: 'bg-blue-50 text-blue-700 border-blue-200' },
+  Streetlight:  { emoji: '💡', pill: 'bg-amber-50 text-amber-700 border-amber-200' },
+  Other:        { emoji: '📍', pill: 'bg-stone-100 text-stone-700 border-stone-200' },
 }
 
 // ── SEGMENT: URGENCY THRESHOLDS ──────────────────────────────────────────────
-// Change the numbers (20, 10, 5) to adjust when urgency badges appear
-// ─────────────────────────────────────────────────────────────────────────────
 const URGENCY = (n: number) => {
   if (n >= 20) return { label: 'CRITICAL', cls: 'bg-red-50 text-red-600 border-red-200' }
   if (n >= 10) return { label: 'HIGH',     cls: 'bg-orange-50 text-orange-600 border-orange-200' }
   if (n >= 5)  return { label: 'MODERATE', cls: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
   return null
-}
-
-function timeAgo(iso: string) {
-  const diff = Date.now() - new Date(iso).getTime()
-  const m = Math.floor(diff / 60000)
-  if (m < 1)  return 'just now'
-  if (m < 60) return `${m}m ago`
-  const h = Math.floor(m / 60)
-  if (h < 24) return `${h}h ago`
-  return `${Math.floor(h / 24)}d ago`
 }
 
 interface ReportCardProps {
@@ -55,8 +40,20 @@ export default function ReportCard({
   const [count, setCount]         = useState(report.confirmations_count)
   const [loading, setLoading]     = useState(false)
   const [imgErr, setImgErr]       = useState(false)
-  const t = useTranslations('card')
-  
+  const t  = useTranslations('card')
+  const tc = useTranslations('categories')
+
+  // ── Time ago using translations ──────────────────────────────────────────
+  const timeAgo = (iso: string) => {
+    const diff = Date.now() - new Date(iso).getTime()
+    const m = Math.floor(diff / 60000)
+    if (m < 1)  return t('justNow')
+    if (m < 60) return t('minutesAgo', { m })
+    const h = Math.floor(m / 60)
+    if (h < 24) return t('hoursAgo', { h })
+    return t('daysAgo', { d: Math.floor(h / 24) })
+  }
+
   const handleConfirm = async () => {
     if (confirmed || loading || !sessionId) return
     setConfirmed(true)
@@ -78,16 +75,9 @@ export default function ReportCard({
   const urgency = URGENCY(count)
 
   return (
-    // ── SEGMENT: CARD SHELL ─────────────────────────────────────────────────
-    // hover:shadow-md = subtle lift on hover (desktop feel)
-    // h-full = makes cards in a grid row equal height
-    // ───────────────────────────────────────────────────────────────────────
     <div className="bg-white border border-[#1A1208]/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full flex flex-col">
 
-      {/* ── SEGMENT: CARD IMAGE ─────────────────────────────────────────────
-          h-44 on desktop for a taller image in the 2-col grid.
-          Change h-44 to any value. Remove this block to hide images entirely.
-      ──────────────────────────────────────────────────────────────────── */}
+      {/* Card image */}
       {report.image_url && !imgErr && (
         <div className="relative w-full h-36 sm:h-44 bg-[#FDFAF7] shrink-0">
           <Image
@@ -101,13 +91,12 @@ export default function ReportCard({
         </div>
       )}
 
-      {/* Content — flex-1 so footer always sticks to bottom in equal-height grid */}
       <div className="p-4 flex flex-col flex-1">
 
         {/* Badges row */}
         <div className="flex items-center gap-1.5 flex-wrap mb-2.5">
           <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${cat.pill}`}>
-            {cat.emoji} {cat.label}
+            {cat.emoji} {tc(report.category)}
           </span>
           {urgency && (
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${urgency.cls}`}>
@@ -139,13 +128,9 @@ export default function ReportCard({
           </p>
         )}
 
-        {/* Spacer to push footer down */}
         <div className="flex-1" />
 
-        {/* ── SEGMENT: CARD FOOTER ──────────────────────────────────────────
-            Status dot + votes + confirm button.
-            To remove voting: delete the entire "Votes + Button" block.
-        ──────────────────────────────────────────────────────────────── */}
+        {/* Card footer */}
         <div className="border-t border-[#1A1208]/6 pt-3 flex items-center justify-between gap-2">
           {/* Status */}
           <div className="flex items-center gap-1.5">
@@ -154,14 +139,15 @@ export default function ReportCard({
               report.status === 'in_review' ? 'bg-blue-500'  : 'bg-zinc-400'
             }`} />
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#1A1208]/50">
-              {report.status === 'in_review' ? 'In Review' : report.status || 'Active'}
+              {report.status === 'in_review' ? t('inReview') :
+               report.status === 'active'    ? t('active')   : t('active')}
             </span>
           </div>
 
           {/* Votes + Confirm */}
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-[#1A1208]/70 tabular-nums whitespace-nowrap">
-              👥 {count} {count === 1 ? 'vote' : 'votes'}
+              👥 {count === 1 ? t('vote') : t('votes', { count })}
             </span>
             <button
               onClick={handleConfirm}
@@ -174,7 +160,7 @@ export default function ReportCard({
                     : 'bg-[#E8520A] text-white border-transparent hover:bg-[#d4480a] shadow-sm'
               }`}
             >
-              {confirmed ? '✓ Confirmed' : loading ? '…' : '👍 Confirm'}
+              {confirmed ? `✓ ${t('confirmed')}` : loading ? '…' : `👍 ${t('confirm')}`}
             </button>
           </div>
         </div>

@@ -19,10 +19,6 @@ interface FeedFiltersProps {
   sortBy: SortOption
   onAreaChange: (area: string) => void
   onSortChange: (sort: SortOption) => void
-  // ── SEGMENT: LAYOUT MODE ──────────────────────────────────────────────────
-  // 'inline'  → horizontal row (used on mobile inside the feed)
-  // 'sidebar' → vertical stack (used inside the desktop sidebar)
-  // ─────────────────────────────────────────────────────────────────────────
   layout?: 'inline' | 'sidebar'
 }
 
@@ -51,7 +47,9 @@ export default function FeedFilters({
           className="w-full appearance-none bg-white border border-[#1A1208]/10 rounded-xl pl-10 pr-8 py-2.5 text-sm font-semibold text-[#1A1208] focus:outline-none focus:border-[#E8520A] focus:ring-2 focus:ring-orange-200 transition cursor-pointer"
         >
           {HYDERABAD_AREAS.map((a) => (
-            <option key={a} value={a}>{a === 'All' ? 'All Neighborhoods' : a}</option>
+            <option key={a} value={a}>
+              {a === 'All' ? t('allNeighborhoods') : a}
+            </option>
           ))}
         </select>
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1A1208]/30 pointer-events-none text-[9px]">▼</span>
@@ -59,9 +57,10 @@ export default function FeedFilters({
 
       {/* ── Sort toggles ── */}
       {isSidebar ? (
-        // Sidebar: label + full-width stacked buttons
         <div className="flex flex-col gap-1.5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#1A1208]/30 px-1">Sort by</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#1A1208]/30 px-1">
+            {t('sortBy')}
+          </p>
           <div className="flex gap-2">
             {(['recent', 'urgency'] as SortOption[]).map((opt) => (
               <button
@@ -74,13 +73,12 @@ export default function FeedFilters({
                     : 'bg-[#F8F1EC] text-[#1A1208] hover:bg-[#FFF1E6]'
                 }`}
               >
-                {opt === 'recent' ? '🕐 Recent' : '🔥 Urgent'}
+                {opt === 'recent' ? `🕐 ${t('recent')}` : `🔥 ${t('urgent')}`}
               </button>
             ))}
           </div>
         </div>
       ) : (
-        // Inline: pill buttons side by side
         <div className="flex items-center gap-2 shrink-0">
           {(['recent', 'urgency'] as SortOption[]).map((opt) => (
             <button
@@ -93,7 +91,7 @@ export default function FeedFilters({
                   : 'bg-[#F8F1EC] text-[#1A1208] hover:bg-[#FFF1E6]'
               }`}
             >
-              {opt === 'recent' ? '🕐 Recent' : '🔥 Urgent'}
+              {opt === 'recent' ? `🕐 ${t('recent')}` : `🔥 ${t('urgent')}`}
             </button>
           ))}
         </div>
