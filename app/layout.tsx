@@ -29,7 +29,6 @@ export const metadata: Metadata = {
 const NAV_LINKS = [
   { href: '/',       label: 'Feed',   emoji: '🏠' },
   { href: '/report', label: 'Report', emoji: '📸' },
-  { href: '/map',    label: 'Map',    emoji: '🗺️' },
 ]
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
