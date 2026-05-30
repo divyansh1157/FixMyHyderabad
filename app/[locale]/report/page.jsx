@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { createReport } from "@/lib/actions";
 
 const CATEGORIES = ["Pothole", "Garbage", "Waterlogging", "Streetlight", "Other"];
@@ -16,6 +17,9 @@ const AREAS = [
 ].sort();
 
 export default function ReportPage() {
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1] || 'en';
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -110,7 +114,7 @@ export default function ReportPage() {
           </p>
           <div className="mt-6 space-y-2">
             <button
-              onClick={() => (window.location.href = "/")}
+              onClick={() => (window.location.href = `/${locale}`)}
               className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-semibold transition-all transform active:scale-95 text-sm"
             >
               ← Back to Live Feed
@@ -137,8 +141,8 @@ export default function ReportPage() {
       
       {/* Light Header */}
       <div className="bg-white border-b border-slate-200 p-4 sticky top-0 z-50 flex items-center gap-4 px-4 md:px-8 shadow-sm">
-        <button 
-          onClick={() => (window.location.href = "/")} 
+        <button
+          onClick={() => window.history.back()}
           className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors border border-slate-200"
         >
           ←
