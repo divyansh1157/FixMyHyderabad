@@ -13,7 +13,11 @@
     "noIssues": "No open issues here",
     "allClear": "All clear in Hyderabad!",
     "tryDifferentArea": "Try a different area",
-    "realtimeUpdate": "Updates in real-time"
+    "realtimeUpdate": "Updates in real-time",
+    "statsOpen": "Open Issues",
+    "statsTotal": "Total Reports",
+    "statsAreas": "Areas Active",
+    "dataUpdates": "Data updates in real-time"
   },
   "filters": {
     "allNeighborhoods": "All Neighborhoods",

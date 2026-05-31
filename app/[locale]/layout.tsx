@@ -14,12 +14,6 @@ export const metadata: Metadata = {
   description: 'Report and track civic issues across Hyderabad',
 }
 
-const NAV_LINKS = [
-  { href: '/',       label_key: 'feed',   emoji: '🏠' },
-  { href: '/report', label_key: 'report', emoji: '📸' },
-  { href: '/map',    label_key: 'map',    emoji: '🗺️' },
-]
-
 export default async function RootLayout(props: any) {
   const { locale } = await props.params
   const { children } = props
@@ -53,16 +47,6 @@ export default async function RootLayout(props: any) {
                 </div>
               </Link>
 
-              {/* Desktop nav */}
-              <nav className="hidden md:flex items-center gap-1">
-                {NAV_LINKS.map(({ href, label_key, emoji }) => (
-                  <Link key={href} href={`/${locale}${href}`} className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-[#1A1208]/60 hover:text-[#1A1208] hover:bg-[#1A1208]/5 transition-all">
-                    <span>{emoji}</span>
-                    <span>{(nav as any)[label_key]}</span>
-                  </Link>
-                ))}
-              </nav>
-
               <div className="flex items-center gap-2 shrink-0">
                 {/* Language switcher */}
                 <LanguageSwitcher currentLocale={locale} />
@@ -77,18 +61,7 @@ export default async function RootLayout(props: any) {
             {children}
           </main>
 
-          {/* Mobile bottom nav */}
-          <nav className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#1A1208]/8 shadow-lg md:hidden">
-            <div className="max-w-lg mx-auto flex items-center justify-around h-14">
-              {NAV_LINKS.map(({ href, label_key, emoji }) => (
-                <Link key={href} href={`/${locale}${href}`} className="flex flex-col items-center gap-0.5 text-[#1A1208]/40 hover:text-[#E8520A] transition-colors">
-                  <span className="text-lg">{emoji}</span>
-                  <span className="text-[10px] font-medium">{(nav as any)[label_key]}</span>
-                </Link>
-              ))}
-            </div>
-          </nav>
-
+          
         </NextIntlClientProvider>
       </body>
     </html>

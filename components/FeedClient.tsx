@@ -44,9 +44,9 @@ export default function FeedClient({ initialReports, initialConfirmedIds, locale
     })
 
   const stats = [
-    { label: 'Open Issues',   value: filtered.length,                                      emoji: '📋' },
-    { label: 'Total Reports', value: reports?.length ?? 0,                                 emoji: '📊' },
-    { label: 'Areas Active',  value: new Set(reports?.map(r => r.area_name) ?? []).size,   emoji: '📍' },
+    { label: t('statsOpen'),   value: filtered.length,                                      emoji: '📋' },
+    { label: t('statsTotal'), value: reports?.length ?? 0,                                 emoji: '📊' },
+    { label: t('statsAreas'),  value: new Set(reports?.map(r => r.area_name) ?? []).size,   emoji: '📍' },
   ]
 
   return (

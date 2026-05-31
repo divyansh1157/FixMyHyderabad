@@ -73,7 +73,7 @@ export default function FeedFilters({
                     : 'bg-[#F8F1EC] text-[#1A1208] hover:bg-[#FFF1E6]'
                 }`}
               >
-                {opt === 'recent' ? `🕐 ${t('recent')}` : `🔥 ${t('urgent')}`}
+                {opt === 'recent' ? ` ${t('recent')}` : ` ${t('urgent')}`}
               </button>
             ))}
           </div>
