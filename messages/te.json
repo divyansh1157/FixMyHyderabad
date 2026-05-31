@@ -33,6 +33,29 @@
     "hoursAgo": "{h} గంటల క్రితం",
     "daysAgo": "{d} రోజుల క్రితం"
   },
+  "details": {
+    "confirmations": "నిర్ధారణలు",
+    "location": "ప్రదేశం",
+    "justNow": "ఇప్పుడే",
+    "minutesAgo": "{m} నిమిషాల క్రితం",
+    "hoursAgo": "{h} గంటల క్రితం",
+    "daysAgo": "{d} రోజుల క్రితం"
+  },
+  "comments": {
+    "title": "కమ్యూనిటీ ఆందోళనలు",
+    "noComments": "ఇంకా వ్యాఖ్యలు లేవు. మీ ఆందోళనను భాగస్వామ్యం చేయండి!",
+    "nameLabel": "మీ పేరు (ఐచ్ఛికం)",
+    "contentLabel": "మీ ఆందోళన లేదా సూచనను భాగస్వామ్యం చేయండి...",
+    "postComment": "వ్యాఖ్య పోస్ట్ చేయండి",
+    "posting": "పోస్ట్ చేస్తోంది...",
+    "anonymous": "అనామక",
+    "emptyComment": "దయచేసి వ్యాఖ్య రాయండి",
+    "commentError": "వ్యాఖ్య పోస్ట్ చేయడం విఫలమైంది",
+    "justNow": "ఇప్పుడే",
+    "minutesAgo": "{m} నిమిషాల క్రితం",
+    "hoursAgo": "{h} గంటల క్రితం",
+    "daysAgo": "{d} రోజుల క్రితం"
+  },
   "categories": {
     "Pothole": "గుంత",
     "Garbage": "చెత్త",

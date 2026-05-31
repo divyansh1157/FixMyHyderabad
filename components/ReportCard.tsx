@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Report, Category } from '@/lib/types'
 import { confirmIssue } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 // ── SEGMENT: CATEGORY CONFIG ─────────────────────────────────────────────────
 const CAT: Record<Category, { emoji: string; pill: string }> = {
@@ -42,7 +44,8 @@ export default function ReportCard({
   const [imgErr, setImgErr]       = useState(false)
   const t  = useTranslations('card')
   const tc = useTranslations('categories')
-
+  const locale = useLocale()
+  
   // ── Time ago using translations ──────────────────────────────────────────
   const timeAgo = (iso: string) => {
     const diff = Date.now() - new Date(iso).getTime()
@@ -77,18 +80,20 @@ export default function ReportCard({
   return (
     <div className="bg-white border border-[#1A1208]/8 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full flex flex-col">
 
-      {/* Card image */}
+      {/* Card image - clickable link to detail */}
       {report.image_url && !imgErr && (
-        <div className="relative w-full h-36 sm:h-44 bg-[#FDFAF7] shrink-0">
-          <Image
-            src={report.image_url}
-            alt={report.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-            onError={() => setImgErr(true)}
-          />
-        </div>
+        <Link href={`/${locale}/issues/${report.id}`}>
+          <div className="relative w-full h-36 sm:h-44 bg-[#FDFAF7] shrink-0 cursor-pointer">
+            <Image
+              src={report.image_url}
+              alt={report.title}
+              fill
+              className="object-cover hover:opacity-90 transition-opacity"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+              onError={() => setImgErr(true)}
+            />
+          </div>
+        </Link>
       )}
 
       <div className="p-4 flex flex-col flex-1">
@@ -108,13 +113,17 @@ export default function ReportCard({
           </span>
         </div>
 
-        {/* Title */}
-        <h3
-          className="font-extrabold text-[#1A1208] text-base leading-snug mb-1"
-          style={{ fontFamily: 'var(--font-syne), sans-serif' }}
-        >
-          {report.title}
-        </h3>
+        {/* Title - clickable link to detail */}
+        <Link href={`/${locale}/issues/${report.id}`} className="hover:text-[#E8520A] transition-colors">
+          <h3
+            className="font-extrabold text-[#1A1208] text-base leading-snug mb-1 cursor-pointer"
+            style={{ fontFamily: 'var(--font-syne), sans-serif' }}
+          >
+            {locale === 'te' ? (report.title_te ?? report.title)
+              : locale === 'ur' ? ((report as any).title_ur ?? report.title)
+              : report.title}
+          </h3>
+        </Link>
 
         {/* Address */}
         <p className="text-[11px] text-[#1A1208]/45 font-medium mb-1">
@@ -124,7 +133,9 @@ export default function ReportCard({
         {/* Description */}
         {report.description && (
           <p className="text-xs text-[#1A1208]/60 leading-relaxed line-clamp-2 mb-3">
-            {report.description}
+            {locale === 'te' ? (report.description_te ?? report.description)
+              : locale === 'ur' ? (report.description_ur ?? report.description)
+              : report.description}
           </p>
         )}
 

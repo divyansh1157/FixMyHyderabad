@@ -33,6 +33,29 @@
     "hoursAgo": "{h} گھنٹے پہلے",
     "daysAgo": "{d} دن پہلے"
   },
+  "details": {
+    "confirmations": "تصدیقات",
+    "location": "مقام",
+    "justNow": "ابھی",
+    "minutesAgo": "{m} منٹ پہلے",
+    "hoursAgo": "{h} گھنٹے پہلے",
+    "daysAgo": "{d} دن پہلے"
+  },
+  "comments": {
+    "title": "کمیونٹی کی تشویشات",
+    "noComments": "ابھی کوئی تبصرے نہیں۔ اپنی تشویش شیئر کریں!",
+    "nameLabel": "آپ کا نام (اختیاری)",
+    "contentLabel": "اپنی تشویش یا تجویز شیئر کریں...",
+    "postComment": "تبصرہ شائع کریں",
+    "posting": "شائع کر رہے ہیں...",
+    "anonymous": "نام نہ ظاہر",
+    "emptyComment": "براہ کرم تبصرہ لکھیں",
+    "commentError": "تبصرہ شائع کرنا ناکام",
+    "justNow": "ابھی",
+    "minutesAgo": "{m} منٹ پہلے",
+    "hoursAgo": "{h} گھنٹے پہلے",
+    "daysAgo": "{d} دن پہلے"
+  },
   "categories": {
     "Pothole": "گڑھا",
     "Garbage": "کچرا",

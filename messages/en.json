@@ -33,6 +33,29 @@
     "hoursAgo": "{h}h ago",
     "daysAgo": "{d}d ago"
   },
+  "details": {
+    "confirmations": "Confirmations",
+    "location": "Location",
+    "justNow": "just now",
+    "minutesAgo": "{m}m ago",
+    "hoursAgo": "{h}h ago",
+    "daysAgo": "{d}d ago"
+  },
+  "comments": {
+    "title": "Community Concerns",
+    "noComments": "No comments yet. Be the first to share your concern!",
+    "nameLabel": "Your name (optional)",
+    "contentLabel": "Share your concern or suggestion...",
+    "postComment": "Post Comment",
+    "posting": "Posting...",
+    "anonymous": "Anonymous",
+    "emptyComment": "Please write a comment",
+    "commentError": "Failed to post comment",
+    "justNow": "just now",
+    "minutesAgo": "{m}m ago",
+    "hoursAgo": "{h}h ago",
+    "daysAgo": "{d}d ago"
+  },
   "categories": {
     "Pothole": "Pothole",
     "Garbage": "Garbage",

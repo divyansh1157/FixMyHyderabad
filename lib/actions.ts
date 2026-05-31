@@ -1,7 +1,7 @@
 'use server'
 
 import { supabase } from './supabase'
-import { CreateReportInput } from './types'
+import { CreateReportInput, Comment } from './types'
 import { revalidatePath } from 'next/cache'
 
 // ─── createReport ─────────────────────────────────────────────────────────────
@@ -144,5 +144,76 @@ async function reverseGeocode(lat: number, lng: number, fallbackArea: string): P
     return road ? `Near ${road}, ${suburb}` : `${suburb}, Hyderabad`
   } catch {
     return `${fallbackArea}, Hyderabad`
+  }
+}
+
+// ─── getReportDetail ──────────────────────────────────────────────────────────
+// Fetch a single report by ID
+export async function getReportDetail(reportId: string) {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('*')
+    .eq('id', reportId)
+    .single()
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+// ─── getComments ──────────────────────────────────────────────────────────────
+// Fetch comments for a report with pagination
+export async function getComments(
+  reportId: string,
+  limit: number = 10,
+  offset: number = 0
+): Promise<Comment[]> {
+  const { data, error } = await supabase
+    .from('comments')
+    .select('*')
+    .eq('report_id', reportId)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+
+  if (error) return []
+  return data as Comment[]
+}
+
+// ─── addComment ────────────────────────────────────────────────────────────────
+// Add a new comment to a report
+export async function addComment(
+  reportId: string,
+  sessionId: string,
+  content: string,
+  authorName?: string
+): Promise<{ success: boolean; comment?: Comment; error?: string }> {
+  try {
+    // Validate input
+    if (!content.trim()) {
+      return { success: false, error: 'Comment cannot be empty' }
+    }
+    if (content.length > 500) {
+      return { success: false, error: 'Comment must be under 500 characters' }
+    }
+
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{
+        report_id: reportId,
+        session_id: sessionId,
+        author_name: authorName || null,
+        content: content.trim(),
+      }])
+      .select('*')
+      .single()
+
+    if (error) throw new Error(error.message)
+
+    revalidatePath(`/issues/${reportId}`)
+    return { success: true, comment: data as Comment }
+
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    console.error('[addComment]', message)
+    return { success: false, error: message }
   }
 }
