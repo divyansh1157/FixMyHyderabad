@@ -13,7 +13,11 @@
     "noIssues": "یہاں کوئی مسئلہ نہیں",
     "allClear": "حیدرآباد میں سب ٹھیک ہے!",
     "tryDifferentArea": "کوئی اور علاقہ آزمائیں",
-    "realtimeUpdate": "ریئل ٹائم اپڈیٹس"
+    "realtimeUpdate": "ریئل ٹائم اپڈیٹس",
+    "statsOpen": "کھلے مسائل",
+    "statsTotal": "کل رپورٹس",
+    "statsAreas": "فعال علاقے",
+    "dataUpdates": "ڈیٹا ریئل ٹائم میں اپڈیٹ ہوتا ہے"
   },
   "filters": {
     "allNeighborhoods": "تمام محلے",
