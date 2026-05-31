@@ -18,13 +18,13 @@
   "filters": {
     "allNeighborhoods": "All Neighborhoods",
     "sortBy": "Sort by",
-    "recent": "🕐 Recent",
-    "urgent": "🔥 Urgent"
+    "recent": "Clock Recent",
+    "urgent": "Fire Urgent"
   },
   "card": {
     "votes": "{count} votes",
     "vote": "1 vote",
-    "confirm": "👍 Confirm",
+    "confirm": "Thumbs Up Confirm",
     "confirmed": "✓ Confirmed",
     "inReview": "In Review",
     "active": "Active",
@@ -51,7 +51,7 @@
     "daysAgo": "{d}d ago",
     "confirmTitle": "Is this issue real?",
     "confirmSubtitle": "Confirming helps prioritise this for municipal action",
-    "confirmButton": "👍 Yes, Confirm this Issue",
+    "confirmButton": "Thumbs Up Yes, Confirm this Issue",
     "confirmedButton": "✓ You Confirmed this",
     "peopleConfirmed": "{count} people confirmed this",
     "escalationNote": "{count}/100 confirmations for priority escalation"
@@ -70,5 +70,37 @@
     "minutesAgo": "{m}m ago",
     "hoursAgo": "{h}h ago",
     "daysAgo": "{d}d ago"
+  },
+  "report": {
+    "headerTitle": "Report a Civic Issue",
+    "headerSub": "FixMyHyderabad / File Incident",
+    "labelType": "Issue Type",
+    "labelZone": "Area Zone",
+    "labelTitle": "Issue Title",
+    "labelLandmark": "Nearest Landmark",
+    "labelDetails": "More Details",
+    "labelPhoto": "Photo Evidence",
+    "labelGeo": "Geotag Location",
+    "optCategory": "Select category...",
+    "optArea": "Select your area in Hyderabad...",
+    "phTitle": "e.g. Open pothole on main road",
+    "phLandmark": "e.g. Opposite Cyber Towers main gate, near Metro Pillar 24",
+    "phDetails": "How long has it been there? Any extra observations?",
+    "phOptional": "(optional)",
+    "btnGeoIdle": "📍 Tap to Capture My Location",
+    "btnGeoLoading": "⏳ Fetching GPS Coordinates...",
+    "btnGeoSuccess": "✓ Verified",
+    "btnGeoError": "⚠️ Location Error — Click to Retry",
+    "btnSubmit": "🚨 Submit Report",
+    "btnSubmitting": "⏳ Submitting...",
+    "alertTitle": "Please enter a title.",
+    "alertCategory": "Please select a category.",
+    "alertArea": "Please select your area.",
+    "alertLandmark": "Please enter a landmark to help find the issue.",
+    "alertLocation": "Please capture your location first.",
+    "successTitle": "Issue Reported!",
+    "successDesc": "Your report is live. Nearby residents can now confirm and upvote this incident.",
+    "btnBackFeed": "← Back to Live Feed",
+    "btnReportAnother": "Report Another Issue"
   }
 }
