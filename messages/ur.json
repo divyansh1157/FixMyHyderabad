@@ -7,43 +7,40 @@
     "tagline": "حیدرآباد پورٹل"
   },
   "feed": {
-    "title": "لائیو واقعات ٹریعکر",
-    "subtitle": "حیدرآباد کے علاقوں میں کمیونٹی رپورٹس کو ریئل ٹائم میں دیکھیں۔ مسائل کی تصدیق سے میونسپل کارروائی تیز ہوتی ہے۔",
-    "openIssues": "{count} مسائل درج ہیں",
-    "noIssues": "یہاں کوئی مسئلہ نہیں",
-    "allClear": "حیدرآباد میں سب ٹھیک ہے!",
-    "tryDifferentArea": "کوئی اور علاقہ آزمائیں",
-    "realtimeUpdate": "ریئل ٹائم اپڈیٹس",
-    "statsOpen": "کھلے مسائل",
-    "statsTotal": "کل رپورٹس",
-    "statsAreas": "فعال علاقے",
-    "dataUpdates": "ڈیٹا ریئل ٹائم میں اپڈیٹ ہوتا ہے"
+    "title": "کمیونٹی ایکٹیویٹی فیڈ",
+    "subtitle": "حیدرآباد بھر میں عوامی مسائل پر لائیو اپڈیٹس۔",
+    "openIssues": "{count, plural, =0 {کوئی مسئلہ نہیں} =1 {1 کھلا مسئلہ} other {# کھلے مسائل}}",
+    "realtimeUpdate": "لائیو اپڈیٹس فعال ہیں",
+    "noIssues": "یہاں سب کچھ صاف ہے!",
+    "tryDifferentArea": "کسی دوسرے علاقے کو منتخب کرنے کی کوشش کریں۔",
+    "allClear": "اس علاقے میں کوئی مسئلہ رپورٹ نہیں ہوا ہے۔",
+    "filterByArea": "علاقے کے لحاظ سے فلٹر کریں",
+    "allNeighborhoods": "تمام علاقے",
+    "sortBy": "ترتیب دیں",
+    "sortRecent": "حالیہ",
+    "sortUrgency": "اہم / ہنگامی"
+  },
+  "card": {
+    "active": "فعال",
+    "inReview": "زیرِ غور",
+    "vote": "ووٹ",
+    "votes": "ووٹ",
+    "confirm": "تصدیق کریں",
+    "confirmed": "تصدیق شدہ",
+    "viewDetails": "تفصیلات دیکھیں"
+  },
+  "categories": {
+    "Pothole": "سڑک کا گڑھا",
+    "Garbage": "کچرا",
+    "Waterlogging": "پانی کا جمع ہونا",
+    "Streetlight": "اسٹریٹ لائٹ",
+    "Other": "دیگر مسائل"
   },
   "filters": {
     "allNeighborhoods": "تمام محلے",
     "sortBy": "ترتیب دیں",
     "recent": "Clock حالیہ",
     "urgent": "Fire فوری"
-  },
-  "card": {
-    "votes": "{count} ووٹ",
-    "vote": "1 ووٹ",
-    "confirm": "Thumbs Up تصدیق کریں",
-    "confirmed": "✓ تصدیق شدہ",
-    "inReview": "جائزہ میں",
-    "active": "فعال",
-    "justNow": "ابھی",
-    "minutesAgo": "{m} منٹ پہلے",
-    "hoursAgo": "{h} گھنٹے پہلے",
-    "daysAgo": "{d} دن پہلے",
-    "viewDetails": "تفصیلات دیکھیں →"
-  },
-  "categories": {
-    "Pothole": "گڑھا",
-    "Garbage": "کچرا",
-    "Waterlogging": "پانی بھراؤ",
-    "Streetlight": "سڑک کی بتی",
-    "Other": "دیگر"
   },
   "details": {
     "back": "← فیڈ پر واپس",

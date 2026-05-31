@@ -1,39 +1,49 @@
 import type { Metadata } from 'next'
 import { DM_Sans, Syne } from 'next/font/google'
-import '../globals.css'                          // ← note the ../ since we moved one level deeper
+import '../globals.css'
 import Link from 'next/link'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
-const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400','500','600','700'], variable: '--font-dm-sans', display: 'swap' })
-const syne   = Syne({ subsets: ['latin'], weight: ['700','800'], variable: '--font-syne', display: 'swap' })
+const dmSans = DM_Sans({ 
+  subsets: ['latin'], 
+  weight: ['400','500','600','700'], 
+  variable: '--font-dm-sans', 
+  display: 'swap' 
+})
+
+const syne = Syne({ 
+  subsets: ['latin'], 
+  weight: ['700','800'], 
+  variable: '--font-syne', 
+  display: 'swap' 
+})
 
 export const metadata: Metadata = {
   title: 'FixMyArea Hyderabad',
   description: 'Report and track civic issues across Hyderabad',
 }
 
-export default async function RootLayout(props: any) {
-  const { locale } = await props.params
-  const { children } = props
+interface LayoutProps {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}
+
+export default async function RootLayout({ children, params }: LayoutProps) {
+  // Await the dynamic locale route params
+  const { locale } = await params
+  
+  // Fetch messages corresponding to the active locale bundle ('en', 'te', 'ur')
   const messages = await getMessages()
-
-
-  const nav = (messages as any).nav   // typed shortcut
+  const nav = (messages as any).nav
 
   return (
-    <html
-      lang={locale}
-      dir={locale === 'ur' ? 'rtl' : 'ltr'}   /* ← Urdu flips to right-to-left automatically */
-      className={`${dmSans.variable} ${syne.variable}`}
-    >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body className="antialiased min-h-screen bg-[#FDFAF7]" style={{ fontFamily: 'var(--font-dm-sans), sans-serif' }}>
-        <NextIntlClientProvider messages={messages}>
-
+    <html lang={locale} dir={locale === 'ur' ? 'rtl' : 'ltr'}>
+      <body className={`${dmSans.variable} ${syne.variable} antialiased`}>
+        {/* ✅ FIXED: Passed the current active locale straight to the client context provider */}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          
           {/* Header */}
           <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#1A1208]/8 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -48,7 +58,6 @@ export default async function RootLayout(props: any) {
               </Link>
 
               <div className="flex items-center gap-2 shrink-0">
-                {/* Language switcher */}
                 <LanguageSwitcher currentLocale={locale} />
                 <Link href={`/${locale}/report`} className="bg-[#E8520A] hover:bg-[#d4480a] text-white text-xs font-bold px-4 py-2 rounded-full shadow-md transition-all active:scale-95">
                   {nav.reportIssue}
@@ -57,11 +66,11 @@ export default async function RootLayout(props: any) {
             </div>
           </header>
 
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24 md:pb-10">
+          {/* Core Page Contents */}
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             {children}
           </main>
 
-          
         </NextIntlClientProvider>
       </body>
     </html>

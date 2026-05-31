@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Comment } from '@/lib/types'
-import { addComment, getComments } from '@/lib/actions'
+import { addComment } from '@/lib/actions'
 import { useTranslations } from 'next-intl'
 
 interface CommentsSectionProps {
@@ -38,93 +38,102 @@ export default function CommentsSection({
     setError('')
 
     if (!content.trim()) {
-      setError(t('emptyComment'))
+      setError('Comment field cannot be empty')
       return
     }
 
     setLoading(true)
-    const res = await addComment(reportId, sessionId, content, name || undefined)
-
+    const res = await addComment(reportId, sessionId, content.trim(), name.trim() || undefined)
     if (res.success && res.comment) {
-      setComments((prev) => [res.comment!, ...prev])
+      setComments((prev) => [res.comment as Comment, ...prev])
       setContent('')
       setName('')
     } else {
-      setError(res.error || t('commentError'))
+      setError('Could not submit update. Please try again.')
     }
-
     setLoading(false)
   }
 
   return (
-    <div className="border-t border-[#1A1208]/8 pt-8">
-      <h2 className="text-xl font-extrabold text-[#1A1208] mb-6" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
-        💬 {t('title')}
-      </h2>
+    <div className="space-y-5 text-start">
+      <h3 className="text-base font-extrabold text-slate-900 pb-2 border-b border-slate-200">
+        📢 {t('title')} ({comments.length})
+      </h3>
 
-      {/* Comment form */}
-      <form onSubmit={handleSubmit} className="mb-8 p-5 bg-[#FDFAF7] rounded-2xl border border-[#1A1208]/8">
-        <div className="mb-4">
+      {/* Accessible Input Form */}
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <div>
+          <label className="block text-xs font-extrabold text-slate-600 uppercase tracking-wider mb-1">
+            {t('nameLabel')}
+          </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder={t('nameLabel')}
-            className="w-full bg-white border border-[#1A1208]/10 rounded-xl p-3 text-sm outline-none focus:border-[#E8520A] transition-colors placeholder:text-[#1A1208]/40"
+            placeholder="e.g. Anand Kumar"
             maxLength={50}
+            className="w-full bg-slate-50 border-2 border-slate-200 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-900 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 outline-none h-12"
           />
         </div>
 
-        <div className="mb-4">
+        <div>
+          <label className="block text-xs font-extrabold text-slate-600 uppercase tracking-wider mb-1">
+            Grievance Update / Context Details
+          </label>
           <textarea
             value={content}
-            onChange={(e) => setContent(e.target.value.slice(0, 500))}
+            onChange={(e) => setContent(e.target.value)}
             placeholder={t('contentLabel')}
-            rows={4}
-            className="w-full bg-white border border-[#1A1208]/10 rounded-xl p-3 text-sm outline-none focus:border-[#E8520A] transition-colors placeholder:text-[#1A1208]/40 resize-none"
+            rows={3}
+            maxLength={500}
+            className="w-full bg-slate-50 border-2 border-slate-200 rounded-lg p-3 text-sm font-bold text-slate-900 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 outline-none resize-none min-h-[90px]"
           />
-          <p className="text-xs text-[#1A1208]/40 mt-1">
-            {content.length}/500
-          </p>
+          
+          {/* FIXED JSX STRUCTURAL BLOCK FOR ERROR / COUNTER MAPS */}
+          <div className="flex justify-between items-center mt-1 text-xs">
+            <div className="text-red-600 font-bold">
+              {error ? error : ""}
+            </div>
+            <div className="text-[10px] font-bold text-slate-400 ms-auto">
+              {content.length}/500
+            </div>
+          </div>
         </div>
-
-        {error && (
-          <p className="text-xs text-rose-600 mb-4">{error}</p>
-        )}
 
         <button
           type="submit"
           disabled={loading || !content.trim()}
-          className="w-full bg-[#E8520A] hover:bg-[#d4480a] disabled:bg-[#E8520A]/50 text-white font-bold py-3 rounded-xl text-sm uppercase tracking-wider transition-all active:scale-95"
+          className="w-full bg-blue-800 hover:bg-blue-900 disabled:bg-slate-200 disabled:border-slate-300 disabled:text-slate-400 text-white font-extrabold py-3 rounded-lg text-xs uppercase tracking-wider transition-all border-2 border-blue-900 shadow-sm h-12 cursor-pointer select-none"
         >
-          {loading ? '⏳ ' + t('posting') : '📝 ' + t('postComment')}
+          {loading ? t('posting') : t('postComment')}
         </button>
       </form>
 
-      {/* Comments list */}
-      {comments.length === 0 ? (
-        <p className="text-center text-[#1A1208]/40 py-8">
-          {t('noComments')}
-        </p>
-      ) : (
-        <div className="space-y-4">
-          {comments.map((comment) => (
-            <div key={comment.id} className="border border-[#1A1208]/8 rounded-xl p-4 bg-white hover:shadow-sm transition-all">
-              <div className="flex items-start justify-between mb-2">
-                <p className="font-semibold text-[#1A1208]">
-                  {comment.author_name || t('anonymous')}
+      {/* Verified Comments Canvas */}
+      <div className="space-y-3 overflow-y-auto max-h-[360px] pe-1">
+        {comments.length === 0 ? (
+          <p className="text-center text-xs font-bold text-slate-400 py-8">
+            {t('noComments')}
+          </p>
+        ) : (
+          comments.map((comment) => (
+            <div key={comment.id} className="border border-slate-200/80 rounded-xl p-4 bg-slate-50/50 hover:bg-slate-50 transition-colors">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <p className="font-extrabold text-xs text-slate-900">
+                  👤 {comment.author_name || 'Anonymous Citizen'}
                 </p>
-                <p className="text-xs text-[#1A1208]/40">
+                <p className="text-[10px] font-bold text-slate-400 tabular-nums">
                   {timeAgo(comment.created_at)}
                 </p>
               </div>
-              <p className="text-sm text-[#1A1208]/70 leading-relaxed whitespace-pre-wrap">
+              
+              <p className="text-xs font-medium text-slate-700 leading-relaxed break-words">
                 {comment.content}
               </p>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   )
 }

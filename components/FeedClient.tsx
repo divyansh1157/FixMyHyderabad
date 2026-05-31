@@ -12,7 +12,7 @@ import FeedFilters from './FeedFilters'
 interface FeedClientProps {
   initialReports: Report[]
   initialConfirmedIds: string[]
-  locale: string   // passed from page.tsx so cards know their locale for links
+  locale: string
 }
 
 export default function FeedClient({ initialReports, initialConfirmedIds, locale }: FeedClientProps) {
@@ -38,78 +38,51 @@ export default function FeedClient({ initialReports, initialConfirmedIds, locale
   const filtered = (reports || [])
     .filter((r) => area === 'All' || r.area_name === area)
     .sort((a, b) => {
-      if (sortBy === 'urgency')
+      if (sortBy === 'urgency') {
         return (b.confirmations_count || 0) - (a.confirmations_count || 0)
+      }
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     })
 
-  const stats = [
-    { label: t('statsOpen'),   value: filtered.length,                                      emoji: '📋' },
-    { label: t('statsTotal'), value: reports?.length ?? 0,                                 emoji: '📊' },
-    { label: t('statsAreas'),  value: new Set(reports?.map(r => r.area_name) ?? []).size,   emoji: '📍' },
-  ]
-
   return (
-    <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8 xl:grid-cols-[320px_1fr]">
-
-      {/* ── SIDEBAR (desktop only) ── */}
-      <aside className="hidden lg:flex flex-col gap-4 sticky top-24 self-start">
-        <div className="bg-[#E8520A] rounded-2xl p-5 text-white shadow-md">
-          <h1 className="font-extrabold text-2xl mb-2 tracking-tight leading-tight" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
+    /* ✅ FIXED: Added items-start to force the sidebar and main section to line up perfectly at the top margin */
+    <div className="flex flex-col lg:flex-row items-start gap-6 w-full">
+      
+      {/* Sidebar Filter Control Panel */}
+      <div className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 lg:h-fit bg-white border border-[#1A1208]/10 rounded-2xl p-5">
+        <div className="hidden lg:block mb-5">
+          <h1 className="text-xl font-black text-[#1A1208] tracking-tight" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
             {t('title')}
           </h1>
-          <p className="text-xs text-orange-50/90 leading-relaxed">{t('subtitle')}</p>
+          <p className="text-[11px] text-[#1A1208]/50 font-semibold mt-1 leading-relaxed">
+            {t('subtitle')}
+          </p>
         </div>
+        <FeedFilters
+          area={area}
+          sortBy={sortBy}
+          onAreaChange={setArea}
+          onSortChange={setSortBy}
+          layout="sidebar"
+        />
+      </div>
 
-        <div className="grid grid-cols-1 gap-2">
-          {stats.map(({ label, value, emoji }) => (
-            <div key={label} className="bg-white border border-[#1A1208]/8 rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
-              <div className="flex items-center gap-2.5">
-                <span className="text-lg">{emoji}</span>
-                <span className="text-xs font-semibold text-[#1A1208]/50">{label}</span>
-              </div>
-              <span className="text-lg font-extrabold text-[#1A1208]" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
-                {value}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <FeedFilters area={area} sortBy={sortBy} onAreaChange={setArea} onSortChange={setSortBy} layout="sidebar" />
-
-        <p className="text-[10px] text-[#1A1208]/30 leading-relaxed px-1">
-          Data updates in real-time via Supabase. Issues are routed to GHMC for municipal action.
-        </p>
-      </aside>
-
-      {/* ── MAIN FEED ── */}
-      <div className="w-full space-y-4">
-
-        {/* Mobile banner */}
-        <div className="lg:hidden bg-[#E8520A] rounded-2xl p-5 text-white shadow-md">
-          <h1 className="font-extrabold text-xl mb-1 tracking-tight leading-tight" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
-            {t('title')}
-          </h1>
-          <p className="text-xs text-orange-50/90 leading-relaxed">{t('subtitle')}</p>
-          <span className="inline-block mt-3 text-[10px] font-bold bg-white/20 px-2.5 py-1 rounded-full">
-            {t('openIssues', { count: filtered.length })}
-          </span>
-        </div>
-
-        {/* Mobile filters */}
-        <div className="lg:hidden">
+      {/* Main Stream Activity Feed Container */}
+      <div className="flex-1 min-w-0 w-full">
+        {/* Mobile Feed Filter Controls Block */}
+        <div className="lg:hidden mb-4">
           <FeedFilters area={area} sortBy={sortBy} onAreaChange={setArea} onSortChange={setSortBy} layout="inline" />
         </div>
 
         {/* Desktop feed header */}
-        <div className="hidden lg:flex items-center justify-between mb-2">
-          <h2 className="font-extrabold text-[#1A1208] text-lg" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
+        <div className="hidden lg:flex items-center justify-between mb-4">
+          <h2 className="font-extrabold text-[#1A1208] text-base" style={{ fontFamily: 'var(--font-syne), sans-serif' }}>
             {t('openIssues', { count: filtered.length })}
           </h2>
-          <span className="text-xs text-[#1A1208]/40 font-medium">{t('realtimeUpdate')}</span>
+          <span className="text-xs text-[#1A1208]/40 font-bold">{t('realtimeUpdate')}</span>
         </div>
 
-        {/* Cards grid */}
+        {/* Cards grid section */}
         {filtered.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-4xl mb-3">🎉</p>
@@ -119,9 +92,10 @@ export default function FeedClient({ initialReports, initialConfirmedIds, locale
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          /* ✅ STABLE RESPONSIVE AUTO-STRETCH GRID PACK */
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 w-full auto-rows-fr">
             {filtered.map((report, i) => (
-              <div key={report.id} className="card-in" style={{ animationDelay: `${Math.min(i * 50, 200)}ms` }}>
+              <div key={report.id} className="card-in w-full min-w-0 h-full" style={{ animationDelay: `${Math.min(i * 50, 200)}ms` }}>
                 <ReportCard
                   report={report}
                   sessionId={sessionId}

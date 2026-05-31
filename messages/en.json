@@ -7,36 +7,27 @@
     "tagline": "Hyderabad Portal"
   },
   "feed": {
-    "title": "Live Incidents Tracker",
-    "subtitle": "Monitor community submissions across Hyderabad areas in real-time. Confirm incidents to accelerate municipal verification routing.",
-    "openIssues": "{count} open issues tracked",
-    "noIssues": "No open issues here",
-    "allClear": "All clear in Hyderabad!",
-    "tryDifferentArea": "Try a different area",
-    "realtimeUpdate": "Updates in real-time",
-    "statsOpen": "Open Issues",
-    "statsTotal": "Total Reports",
-    "statsAreas": "Areas Active",
-    "dataUpdates": "Data updates in real-time"
-  },
-  "filters": {
+    "title": "Community Activity Feed",
+    "subtitle": "Real-time updates on civic issues across Hyderabad.",
+    "openIssues": "{count, plural, =0 {No Open Issues} =1 {1 Open Issue} other {# Open Issues}}",
+    "realtimeUpdate": "Live Updates Active",
+    "noIssues": "All clear here!",
+    "tryDifferentArea": "Try selecting a different neighborhood filter.",
+    "allClear": "No open complaints reported in this area.",
+    "filterByArea": "Filter by Area",
     "allNeighborhoods": "All Neighborhoods",
-    "sortBy": "Sort by",
-    "recent": "Clock Recent",
-    "urgent": "Fire Urgent"
+    "sortBy": "Sort By",
+    "sortRecent": "Recent",
+    "sortUrgency": "Urgent"
   },
   "card": {
-    "votes": "{count} votes",
-    "vote": "1 vote",
-    "confirm": "Thumbs Up Confirm",
-    "confirmed": "✓ Confirmed",
-    "inReview": "In Review",
     "active": "Active",
-    "justNow": "just now",
-    "minutesAgo": "{m}m ago",
-    "hoursAgo": "{h}h ago",
-    "daysAgo": "{d}d ago",
-    "viewDetails": "View Details →"
+    "inReview": "In Review",
+    "vote": "vote",
+    "votes": "votes",
+    "confirm": "Confirm",
+    "confirmed": "Confirmed",
+    "viewDetails": "View Details"
   },
   "categories": {
     "Pothole": "Pothole",
@@ -45,6 +36,13 @@
     "Streetlight": "Streetlight",
     "Other": "Other"
   },
+  "filters": {  
+    "allNeighborhoods": "All Neighborhoods",
+    "sortBy": "Sort by",
+    "recent": "Clock Recent",
+    "urgent": "Fire Urgent"
+  },
+  
   "details": {
     "back": "← Back to Feed",
     "confirmations": "Confirmations",
