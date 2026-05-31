@@ -8,7 +8,7 @@
   },
   "feed": {
     "title": "لائیو واقعات ٹریکر",
-    "subtitle": "حیدرآباد کے علاقوں میں کمیونٹی رپورٹس کو ریئل ٹائم میں دیکھیں۔",
+    "subtitle": "حیدرآباد کے علاقوں میں کمیونٹی رپورٹس کو ریئل ٹائم میں دیکھیں۔ مسائل کی تصدیق سے میونسپل کارروائی تیز ہوتی ہے۔",
     "openIssues": "{count} مسائل درج ہیں",
     "noIssues": "یہاں کوئی مسئلہ نہیں",
     "allClear": "حیدرآباد میں سب ٹھیک ہے!",
@@ -18,43 +18,21 @@
   "filters": {
     "allNeighborhoods": "تمام محلے",
     "sortBy": "ترتیب دیں",
-    "recent": "حالیہ",
-    "urgent": "فوری"
+    "recent": "🕐 حالیہ",
+    "urgent": "🔥 فوری"
   },
   "card": {
     "votes": "{count} ووٹ",
     "vote": "1 ووٹ",
-    "confirm": "تصدیق کریں",
-    "confirmed": "تصدیق شدہ",
+    "confirm": "👍 تصدیق کریں",
+    "confirmed": "✓ تصدیق شدہ",
     "inReview": "جائزہ میں",
     "active": "فعال",
     "justNow": "ابھی",
     "minutesAgo": "{m} منٹ پہلے",
     "hoursAgo": "{h} گھنٹے پہلے",
-    "daysAgo": "{d} دن پہلے"
-  },
-  "details": {
-    "confirmations": "تصدیقات",
-    "location": "مقام",
-    "justNow": "ابھی",
-    "minutesAgo": "{m} منٹ پہلے",
-    "hoursAgo": "{h} گھنٹے پہلے",
-    "daysAgo": "{d} دن پہلے"
-  },
-  "comments": {
-    "title": "کمیونٹی کی تشویشات",
-    "noComments": "ابھی کوئی تبصرے نہیں۔ اپنی تشویش شیئر کریں!",
-    "nameLabel": "آپ کا نام (اختیاری)",
-    "contentLabel": "اپنی تشویش یا تجویز شیئر کریں...",
-    "postComment": "تبصرہ شائع کریں",
-    "posting": "شائع کر رہے ہیں...",
-    "anonymous": "نام نہ ظاہر",
-    "emptyComment": "براہ کرم تبصرہ لکھیں",
-    "commentError": "تبصرہ شائع کرنا ناکام",
-    "justNow": "ابھی",
-    "minutesAgo": "{m} منٹ پہلے",
-    "hoursAgo": "{h} گھنٹے پہلے",
-    "daysAgo": "{d} دن پہلے"
+    "daysAgo": "{d} دن پہلے",
+    "viewDetails": "تفصیلات دیکھیں →"
   },
   "categories": {
     "Pothole": "گڑھا",
@@ -62,5 +40,35 @@
     "Waterlogging": "پانی بھراؤ",
     "Streetlight": "سڑک کی بتی",
     "Other": "دیگر"
+  },
+  "details": {
+    "back": "← فیڈ پر واپس",
+    "confirmations": "تصدیقات",
+    "location": "مقام",
+    "justNow": "ابھی",
+    "minutesAgo": "{m} منٹ پہلے",
+    "hoursAgo": "{h} گھنٹے پہلے",
+    "daysAgo": "{d} دن پہلے",
+    "confirmTitle": "کیا یہ مسئلہ حقیقی ہے؟",
+    "confirmSubtitle": "تصدیق سے میونسپل کارروائی میں تیزی آتی ہے",
+    "confirmButton": "👍 ہاں، میں تصدیق کرتا ہوں",
+    "confirmedButton": "✓ آپ نے تصدیق کی",
+    "peopleConfirmed": "{count} لوگوں نے تصدیق کی",
+    "escalationNote": "ترجیحی اضافے کے لیے {count}/100 تصدیقات"
+  },
+  "comments": {
+    "title": "کمیونٹی تبصرے",
+    "nameLabel": "آپ کا نام (اختیاری)",
+    "contentLabel": "اس مسئلے کے بارے میں تفصیلات یا اپڈیٹس لکھیں...",
+    "postComment": "تبصرہ پوسٹ کریں",
+    "posting": "پوسٹ ہو رہا ہے...",
+    "noComments": "ابھی تک کوئی تبصرہ نہیں۔ پہلے آپ لکھیں!",
+    "anonymous": "گمنام",
+    "emptyComment": "پوسٹ کرنے سے پہلے کچھ لکھیں۔",
+    "commentError": "تبصرہ پوسٹ نہیں ہوا۔ دوبارہ کوشش کریں۔",
+    "justNow": "ابھی",
+    "minutesAgo": "{m} منٹ پہلے",
+    "hoursAgo": "{h} گھنٹے پہلے",
+    "daysAgo": "{d} دن پہلے"
   }
 }

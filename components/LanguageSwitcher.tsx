@@ -2,10 +2,11 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 
+// Add or remove languages here — code must match your locales in i18n/routing.ts
 const LANGS = [
-  { code: 'en', label: 'EN' },
-  { code: 'te', label: 'తె' },
-  { code: 'ur', label: 'اردو' },
+  { code: 'en', label: 'EN',   name: 'English' },
+  { code: 'te', label: 'తె',   name: 'తెలుగు'  },
+  { code: 'ur', label: 'اردو', name: 'اردو'    },
 ]
 
 export default function LanguageSwitcher({ currentLocale }: { currentLocale: string }) {
@@ -13,17 +14,20 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: str
   const pathname = usePathname()
 
   const switchTo = (locale: string) => {
-    // Swaps /en/... → /te/... → /ur/...
-    const newPath = pathname.replace(/^\/(en|te|ur)/, `/${locale}`)
-    router.push(newPath)
+    // replaces /en/... with /te/... etc, preserving the rest of the URL
+    const segments = pathname.split('/')
+    segments[1] = locale           // index 1 is always the locale segment
+    router.push(segments.join('/'))
   }
 
   return (
-    <div className="flex items-center gap-1 bg-[#1A1208]/5 rounded-full p-1">
-      {LANGS.map(({ code, label }) => (
+    <div className="flex items-center gap-0.5 bg-[#1A1208]/6 rounded-full p-1">
+      {LANGS.map(({ code, label, name }) => (
         <button
           key={code}
           onClick={() => switchTo(code)}
+          title={name}
+          aria-label={`Switch to ${name}`}
           className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all ${
             currentLocale === code
               ? 'bg-white shadow-sm text-[#1A1208]'

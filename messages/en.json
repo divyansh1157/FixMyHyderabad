@@ -8,7 +8,7 @@
   },
   "feed": {
     "title": "Live Incidents Tracker",
-    "subtitle": "Monitor community submissions across Hyderabad areas in real-time.",
+    "subtitle": "Monitor community submissions across Hyderabad areas in real-time. Confirm incidents to accelerate municipal verification routing.",
     "openIssues": "{count} open issues tracked",
     "noIssues": "No open issues here",
     "allClear": "All clear in Hyderabad!",
@@ -18,43 +18,21 @@
   "filters": {
     "allNeighborhoods": "All Neighborhoods",
     "sortBy": "Sort by",
-    "recent": "Recent",
-    "urgent": "Urgent"
+    "recent": "🕐 Recent",
+    "urgent": "🔥 Urgent"
   },
   "card": {
     "votes": "{count} votes",
     "vote": "1 vote",
-    "confirm": "Confirm",
-    "confirmed": "Confirmed",
+    "confirm": "👍 Confirm",
+    "confirmed": "✓ Confirmed",
     "inReview": "In Review",
     "active": "Active",
     "justNow": "just now",
     "minutesAgo": "{m}m ago",
     "hoursAgo": "{h}h ago",
-    "daysAgo": "{d}d ago"
-  },
-  "details": {
-    "confirmations": "Confirmations",
-    "location": "Location",
-    "justNow": "just now",
-    "minutesAgo": "{m}m ago",
-    "hoursAgo": "{h}h ago",
-    "daysAgo": "{d}d ago"
-  },
-  "comments": {
-    "title": "Community Concerns",
-    "noComments": "No comments yet. Be the first to share your concern!",
-    "nameLabel": "Your name (optional)",
-    "contentLabel": "Share your concern or suggestion...",
-    "postComment": "Post Comment",
-    "posting": "Posting...",
-    "anonymous": "Anonymous",
-    "emptyComment": "Please write a comment",
-    "commentError": "Failed to post comment",
-    "justNow": "just now",
-    "minutesAgo": "{m}m ago",
-    "hoursAgo": "{h}h ago",
-    "daysAgo": "{d}d ago"
+    "daysAgo": "{d}d ago",
+    "viewDetails": "View Details →"
   },
   "categories": {
     "Pothole": "Pothole",
@@ -62,5 +40,35 @@
     "Waterlogging": "Waterlogging",
     "Streetlight": "Streetlight",
     "Other": "Other"
+  },
+  "details": {
+    "back": "← Back to Feed",
+    "confirmations": "Confirmations",
+    "location": "Location",
+    "justNow": "just now",
+    "minutesAgo": "{m}m ago",
+    "hoursAgo": "{h}h ago",
+    "daysAgo": "{d}d ago",
+    "confirmTitle": "Is this issue real?",
+    "confirmSubtitle": "Confirming helps prioritise this for municipal action",
+    "confirmButton": "👍 Yes, Confirm this Issue",
+    "confirmedButton": "✓ You Confirmed this",
+    "peopleConfirmed": "{count} people confirmed this",
+    "escalationNote": "{count}/100 confirmations for priority escalation"
+  },
+  "comments": {
+    "title": "Community Comments",
+    "nameLabel": "Your name (optional)",
+    "contentLabel": "Add details, updates or context about this issue...",
+    "postComment": "Post Comment",
+    "posting": "Posting...",
+    "noComments": "No comments yet. Be the first to add context!",
+    "anonymous": "Anonymous",
+    "emptyComment": "Please write something before posting.",
+    "commentError": "Failed to post comment. Please try again.",
+    "justNow": "just now",
+    "minutesAgo": "{m}m ago",
+    "hoursAgo": "{h}h ago",
+    "daysAgo": "{d}d ago"
   }
 }
