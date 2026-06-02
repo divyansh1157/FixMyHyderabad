@@ -21,6 +21,8 @@ export default function IssuePageClient({
   locale,
   comments,
 }: IssuePageClientProps) {
+  const t = useTranslations('details')
+
   return (
     <div className="space-y-6">
       {/* Dynamic Directional Back-Navigation Target Anchor Block */}
@@ -31,14 +33,7 @@ export default function IssuePageClient({
         >
           {/* Flipped dynamically in CSS to stay correct in both English and Urdu */}
           <span className="rtl:rotate-180 inline-block">←</span>
-          <span>
-            {locale === 'ur' 
-              ? 'شکایات فیڈ پر واپس جائیں' 
-              : locale === 'te' 
-                ? 'సమస్యల ఫీడ్‌కు తిరిగి వెళ్ళు' 
-                : 'Back to Incidents Feed'
-            }
-          </span>
+          <span>{t('back')}</span>
         </Link>
       </div>
 
@@ -48,7 +43,6 @@ export default function IssuePageClient({
         <div className="lg:col-span-2">
           <IssueDetail
             report={report}
-            sessionId={sessionId}
             isConfirmedInitial={isConfirmedInitial}
           />
         </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { createReport } from "@/lib/actions";
-import { useTranslations } from "next-intl"; // Hooking directly into next-intl framework
 
 const CATEGORIES = ["Pothole", "Garbage", "Waterlogging", "Streetlight", "Other"];
 
@@ -17,14 +18,15 @@ const AREAS = [
 ].sort();
 
 export default function ReportPage() {
-  // Pull keys automatically from the "report" block in your messages JSON files
-  const t = useTranslations("report");
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1] || 'en';
+  const t = useTranslations('report');
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [area, setArea] = useState("");
-  const [landmark, setLandmark] = useState("");
+  const [landmark, setLandmark] = useState(""); // New Landmark state
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [location, setLocation] = useState(null);
@@ -65,12 +67,12 @@ export default function ReportPage() {
   };
 
   const handleSubmit = async () => {
-    // Structural localization translation method invocations
-    if (!category)         return alert(t("alertCategory"));
-    if (!area)             return alert(t("alertArea"));
-    if (!title.trim())     return alert(t("alertTitle"));
-    if (!landmark.trim())  return alert(t("alertLandmark"));
-    if (!location)         return alert(t("alertLocation"));
+    // Validations (Including the new landmark validation check)
+    if (!category)         return alert(t('alertCategory'));
+    if (!area)             return alert(t('alertArea'));
+    if (!title.trim())     return alert(t('alertTitle'));
+    if (!landmark.trim())  return alert(t('alertLandmark'));
+    if (!location)         return alert(t('alertLocation'));
 
     setSubmitStatus("loading");
     setErrorMsg("");
@@ -108,14 +110,16 @@ export default function ReportPage() {
           <div className="w-16 h-16 bg-emerald-50 text-emerald-600 text-3xl rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-200">
             ✓
           </div>
-          <h2 className="text-xl font-bold text-slate-900">{t("successTitle")}</h2>
-          <p className="text-slate-500 mt-2 text-sm leading-relaxed">{t("successDesc")}</p>
+          <h2 className="text-xl font-bold text-slate-900">{t('successTitle')}</h2>
+          <p className="text-slate-500 mt-2 text-sm leading-relaxed">
+            {t('successDesc')}
+          </p>
           <div className="mt-6 space-y-2">
             <button
-              onClick={() => (window.location.href = "/")}
+              onClick={() => (window.location.href = `/${locale}`)}
               className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl font-semibold transition-all transform active:scale-95 text-sm"
             >
-              {t("btnBackFeed")}
+              {t('btnBackFeed')}
             </button>
             <button
               onClick={() => {
@@ -126,7 +130,7 @@ export default function ReportPage() {
               }}
               className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-semibold transition-all text-sm block"
             >
-              {t("btnReportAnother")}
+              {t('btnReportAnother')}
             </button>
           </div>
         </div>
@@ -139,15 +143,15 @@ export default function ReportPage() {
       
       {/* Light Header */}
       <div className="bg-white border-b border-slate-200 p-4 sticky top-0 z-50 flex items-center gap-4 px-4 md:px-8 shadow-sm">
-        <button 
-          onClick={() => (window.location.href = "/")} 
+        <button
+          onClick={() => window.history.back()}
           className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors border border-slate-200"
         >
           ←
         </button>
         <div>
-          <h1 className="text-base font-bold text-slate-900">{t("headerTitle")}</h1>
-          <p className="text-xs text-slate-500">{t("headerSub")}</p>
+          <h1 className="text-base font-bold text-slate-900">{t('headerTitle')}</h1>
+          <p className="text-xs text-slate-500">{t('headerSub')}</p>
         </div>
       </div>
 
@@ -158,7 +162,7 @@ export default function ReportPage() {
           {/* CATEGORY */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelType")} <span className="text-rose-500">*</span>
+              {t('labelType')} <span className="text-rose-500">*</span>
             </label>
             <select
               value={category}
@@ -166,7 +170,7 @@ export default function ReportPage() {
               className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-xl p-3 text-slate-800 outline-none transition-all cursor-pointer font-medium text-sm appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
             >
-              <option value="">{t("optCategory")}</option>
+              <option value="">{t('optCategory')}</option>
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
@@ -176,7 +180,7 @@ export default function ReportPage() {
           {/* AREA */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelZone")} <span className="text-rose-500">*</span>
+              {t('labelZone')} <span className="text-rose-500">*</span>
             </label>
             <select
               value={area}
@@ -184,7 +188,7 @@ export default function ReportPage() {
               className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-xl p-3 text-slate-800 outline-none transition-all cursor-pointer font-medium text-sm appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
             >
-              <option value="">{t("optArea")}</option>
+              <option value="">{t('optArea')}</option>
               {AREAS.map((a) => (
                 <option key={a} value={a}>{a}</option>
               ))}
@@ -194,13 +198,13 @@ export default function ReportPage() {
           {/* TITLE */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelTitle")} <span className="text-rose-500">*</span>
+              {t('labelTitle')} <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder={t("phTitle")}
+              placeholder={t('phTitle')}
               maxLength={100}
               className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-xl p-3 text-slate-800 outline-none transition-all placeholder:text-slate-400 text-sm font-medium"
             />
@@ -209,13 +213,13 @@ export default function ReportPage() {
           {/* MANDATORY LANDMARK COLUMN */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelLandmark")} <span className="text-rose-500">*</span>
+              {t('labelLandmark')} <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={landmark}
               onChange={(e) => setLandmark(e.target.value)}
-              placeholder={t("phLandmark")}
+              placeholder={t('phLandmark')}
               maxLength={150}
               className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-xl p-3 text-slate-800 outline-none transition-all placeholder:text-slate-400 text-sm font-medium"
             />
@@ -224,12 +228,12 @@ export default function ReportPage() {
           {/* DESCRIPTION */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelDetails")} <span className="text-slate-400 font-normal normal-case">{t("phOptional")}</span>
+              {t('labelDetails')} <span className="text-slate-400 font-normal normal-case">{t('phOptional')}</span>
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("phDetails")}
+              placeholder={t('phDetails')}
               rows={3}
               className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-xl p-3 text-slate-800 outline-none transition-all resize-none placeholder:text-slate-400 text-sm font-medium"
             />
@@ -238,7 +242,7 @@ export default function ReportPage() {
           {/* IMAGE */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelPhoto")} <span className="text-slate-400 font-normal normal-case">{t("phOptional")}</span>
+              {t('labelPhoto')} <span className="text-slate-400 font-normal normal-case">{t('phOptional')}</span>
             </label>
             <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-50 rounded-xl cursor-pointer transition-all overflow-hidden relative group">
               {imagePreview ? (
@@ -269,7 +273,7 @@ export default function ReportPage() {
                 onClick={() => { setImageFile(null); setImagePreview(null); }}
                 className="text-xs text-rose-600 hover:underline mt-1.5 font-medium inline-block"
               >
-                Remove photo
+                {t('removePhoto') || 'Remove photo'}
               </button>
             )}
           </div>
@@ -277,7 +281,7 @@ export default function ReportPage() {
           {/* LOCATION */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
-              {t("labelGeo")} <span className="text-rose-500">*</span>
+              {t('labelGeo')} <span className="text-rose-500">*</span>
             </label>
             <button
               type="button"
@@ -291,10 +295,10 @@ export default function ReportPage() {
                   : "border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100/70"
                 }`}
             >
-              {locationStatus === "idle" && t("btnGeoIdle")}
-              {locationStatus === "loading" && t("btnGeoLoading")}
-              {locationStatus === "success" && `${t("btnGeoSuccess")} (${location.lat.toFixed(4)}, ${location.lng.toFixed(4)})`}
-              {locationStatus === "error" && t("btnGeoError")}
+              {locationStatus === "idle" && t('btnGeoIdle')}
+              {locationStatus === "loading" && t('btnGeoLoading')}
+              {locationStatus === "success" && `${t('btnGeoSuccess')} (${location.lat.toFixed(4)}, ${location.lng.toFixed(4)})`}
+              {locationStatus === "error" && t('btnGeoError')}
             </button>
           </div>
 
@@ -312,7 +316,7 @@ export default function ReportPage() {
             disabled={submitStatus === "loading"}
             className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-sm transition-all transform active:scale-[0.99] disabled:opacity-50"
           >
-            {submitStatus === "loading" ? t("btnSubmitting") : t("btnSubmit")}
+            {submitStatus === "loading" ? t('btnSubmitting') : t('btnSubmit')}
           </button>
 
         </div>

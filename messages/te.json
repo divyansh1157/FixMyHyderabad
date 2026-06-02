@@ -18,7 +18,10 @@
     "allNeighborhoods": "అన్ని ప్రాంతాలు",
     "sortBy": "క్రమబద్ధీకరించు",
     "sortRecent": "ఇటీవలివి",
-    "sortUrgency": "అత్యవసరమైనవి"
+    "sortUrgency": "అత్యవసరమైనవి",
+    "statsOpen": "తెరిచిన సమస్యలు",
+    "statsTotal": "మొత్తం నివేదికలు",
+    "statsAreas": "సక్రియ ప్రాంతాలు"
   },
   "card": {
     "active": "యాక్టివ్",
@@ -27,7 +30,20 @@
     "votes": "ఓట్లు",
     "confirm": "ధృవీకరించు",
     "confirmed": "ధృవీకరించబడింది",
-    "viewDetails": "వివరాలు చూడు"
+    "viewDetails": "వివరాలు చూడు",
+    "translated": "యంత్ర అనువాదం",
+    "translationError": "అనువాద విఫలం",
+    "justNow": "ఇప్పుడే",
+    "minutesAgo": "{m}నిమి క్రితం",
+    "hoursAgo": "{h}గంటల క్రితం",
+    "daysAgo": "{d}రోజుల క్రితం"
+  },
+  "categories": {
+    "Pothole": "రోడ్డు గుంత",
+    "Garbage": "చెత్త",
+    "Waterlogging": "నీరు నిలవడం",
+    "Streetlight": "వీధి దీపం",
+    "Other": "ఇతరములు"
   },
   "categories": {
     "Pothole": "రోడ్డు గుంత",
@@ -88,6 +104,7 @@
     "phLandmark": "ఉదా: సైబర్ టవర్స్ ప్రధాన గేట్ ఎదురుగా, మెట్రో పిల్లర్ 24 సమీపంలో",
     "phDetails": "ఇది అక్కడ ఎంతకాలం నుండి ఉంది? ఏవైనా అదనపు పరిశీలనలు?",
     "phOptional": "(ఐచ్ఛికం)",
+    "removePhoto": "ఫోటోను తొలగించండి",
     "btnGeoIdle": "📍 నా స్థానాన్ని గుర్తించడానికి నొక్కండి",
     "btnGeoLoading": "⏳ జిపిఎస్ కోఆర్డినేట్లను సేకరిస్తోంది...",
     "btnGeoSuccess": "✓ ధృవీకరించబడింది",
