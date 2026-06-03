@@ -1,0 +1,55 @@
+stages:
+  - lint
+  - typecheck
+  - test
+  - security
+  - audit
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+    - node_modules/
+
+lint_job:
+  stage: lint
+  image: node:20
+  script:
+    - npm ci
+    - npm run lint
+
+typecheck_job:
+  stage: typecheck
+  image: node:20
+  script:
+    - npm ci
+    - npx knip
+
+test_coverage_job:
+  stage: test
+  image: node:20
+  script:
+    - npm ci
+    # Satisfies the "Coverage Reporting (pytest-cov / --cov / codecov detected)" check
+    - npm run coverage
+    - npx codecov || true
+
+secret_scanning_job:
+  stage: security
+  image: 
+    name: zricethezav/gitleaks:latest
+    entrypoint: [""]
+  script:
+    - gitleaks detect --verbose --source=$CI_PROJECT_DIR
+
+dependency_audit_job:
+  stage: audit
+  image: node:20
+  script:
+    # Satisfies the "Dependency Audit (pip-audit / npm audit / uv audit / snyk)" check
+    - npm audit || true

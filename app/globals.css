@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-inter: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-urdu: var(--font-noto-urdu), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --font-sans: var(--font-inter);
 }
 
 /* Base resets */
