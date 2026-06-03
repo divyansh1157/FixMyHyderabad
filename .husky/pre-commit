@@ -1,0 +1,25 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit hooks..."
+
+# 1. Lint and Format staged files
+npx lint-staged
+
+# 2. Type Check
+echo "Running TypeScript type check..."
+npm run typecheck
+
+# 3. Knip (Unused code/dependencies)
+echo "Running Knip analysis..."
+npm run knip
+
+# 4. i18n Check (Translation consistency)
+echo "Running i18n check..."
+npm run i18n:check
+
+# 5. Optional: Build check (uncomment if you want to ensure it builds before commit)
+# echo "Running Build check..."
+# npm run build
+
+echo "✅ All pre-commit checks passed!"

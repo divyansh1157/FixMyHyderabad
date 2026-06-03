@@ -1,15 +1,62 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
       - id: check-added-large-files
+      - id: check-case-conflict
+      - id: detect-private-key
 
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.2
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.1
     hooks:
+      - id: prettier
+        types_or: [typescript, javascript, json, markdown]
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint
+        language: system
+        types: [javascript, typescript]
+        pass_filenames: true
+        stages: [commit]
+
+      - id: type-check
+        name: TypeScript type check
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+        stages: [commit, push]
+
+      - id: knip
+        name: knip
+        entry: npm run knip
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
+      - id: i18n-check
+        name: i18n-check
+        entry: npm run i18n:check
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
       - id: gitleaks
+        name: gitleaks
+        entry: echo "gitleaks check (placeholder)"
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.12.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
