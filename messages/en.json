@@ -83,13 +83,13 @@
     "Tolichowki": "Tolichowki",
     "Uppal": "Uppal"
   },
-  "filters": {  
+  "filters": {
     "allNeighborhoods": "All Neighborhoods",
     "sortBy": "Sort by",
     "recent": "Clock Recent",
     "urgent": "Fire Urgent"
   },
-  
+
   "details": {
     "back": "← Back to Feed",
     "confirmations": "Confirmations",

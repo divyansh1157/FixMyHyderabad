@@ -1,1 +1,1 @@
-export const getCurrentTime = () => Date.now()
+export const getCurrentTime = () => Date.now();

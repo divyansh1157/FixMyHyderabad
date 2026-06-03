@@ -18,36 +18,41 @@ cache:
     - .npm/
     - node_modules/
 
-format_job:
+# Formatting Stage
+prettier_format:
   stage: format
   image: node:20
   script:
     - npm ci
-    - npm run format:check
+    - npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
   allow_failure: true
 
-lint_job:
+# Linting Stage
+eslint_lint:
   stage: lint
   image: node:20
   script:
     - npm ci
-    - npm run lint
+    - npx eslint .
 
-typecheck_job:
+# Type Checking Stage
+typescript_typecheck:
   stage: type-check
   image: node:20
   script:
     - npm ci
     - npx tsc --noEmit
 
-test_job:
+# Testing Stage
+jest_test:
   stage: test
   image: node:20
   script:
     - npm ci
     - npm test
 
-coverage_job:
+# Coverage Stage
+coverage_report:
   stage: coverage
   image: node:20
   script:
@@ -64,7 +69,8 @@ coverage_job:
     expire_in: 30 days
   allow_failure: true
 
-secret_scanning_job:
+# Security Stage
+gitleaks_scan:
   stage: security
   image: 
     name: zricethezav/gitleaks:latest
@@ -72,8 +78,10 @@ secret_scanning_job:
   script:
     - gitleaks detect --verbose --source=$CI_PROJECT_DIR
 
-dependency_audit_job:
+# Audit Stage
+dependency_audit:
   stage: audit
   image: node:20
   script:
     - npm audit || true
+    - ls .env.example || (echo ".env.example is missing" && exit 1)

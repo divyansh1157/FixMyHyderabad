@@ -2,12 +2,12 @@
 // Member 2 drops useRealtimeFeed() into their feed component
 // New reports and confirmation count updates appear instantly — no page refresh needed
 
-import { useEffect, useState } from 'react'
-import { supabase } from './supabase'
-import { Report } from './types'
+import { useEffect, useState } from 'react';
+import { supabase } from './supabase';
+import { Report } from './types';
 
 export function useRealtimeFeed(initialReports: Report[]) {
-  const [reports, setReports] = useState<Report[]>(initialReports)
+  const [reports, setReports] = useState<Report[]>(initialReports);
 
   useEffect(() => {
     // Subscribe to all changes on the reports table
@@ -18,7 +18,7 @@ export function useRealtimeFeed(initialReports: Report[]) {
         { event: 'INSERT', schema: 'public', table: 'reports' },
         (payload) => {
           // New report added — prepend to feed
-          setReports((prev) => [payload.new as Report, ...prev])
+          setReports((prev) => [payload.new as Report, ...prev]);
         }
       )
       .on(
@@ -27,16 +27,18 @@ export function useRealtimeFeed(initialReports: Report[]) {
         (payload) => {
           // Confirmation count updated — replace in place
           setReports((prev) =>
-            prev.map((r) => (r.id === payload.new.id ? (payload.new as Report) : r))
-          )
+            prev.map((r) =>
+              r.id === payload.new.id ? (payload.new as Report) : r
+            )
+          );
         }
       )
-      .subscribe()
+      .subscribe();
 
     return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
-  return reports
+  return reports;
 }

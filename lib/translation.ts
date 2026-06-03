@@ -36,7 +36,10 @@ export class GoogleTranslationService implements ITranslationService {
     }
   }
 
-  async translateBatch(texts: string[], targetLocale: string): Promise<string[]> {
+  async translateBatch(
+    texts: string[],
+    targetLocale: string
+  ): Promise<string[]> {
     if (!this.client || !texts.length) return texts;
 
     try {
@@ -47,7 +50,7 @@ export class GoogleTranslationService implements ITranslationService {
         targetLanguageCode: targetLocale,
       });
 
-      return response.translations?.map(t => t.translatedText || '') || texts;
+      return response.translations?.map((t) => t.translatedText || '') || texts;
     } catch (error) {
       console.error('Batch translation error:', error);
       return texts;

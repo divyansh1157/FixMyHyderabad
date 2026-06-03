@@ -7,6 +7,7 @@
 ## What is FixMyHyderabad?
 
 FixMyHyderabad is a community-driven platform where Hyderabad citizens can:
+
 - **Report** civic issues like potholes, waterlogging, garbage, and broken streetlights
 - **Confirm** issues reported by others to increase their urgency
 - **Track** the live status of issues across different areas of the city
@@ -55,7 +56,9 @@ Each person can confirm an issue only once. The button will be disabled after yo
 ## Browsing the Feed
 
 ### Filter by Area
+
 Use the **"Filter by Area"** dropdown to see issues only in your locality:
+
 - Madhapur
 - Kukatpally
 - Kondapur
@@ -69,6 +72,7 @@ Use the **"Filter by Area"** dropdown to see issues only in your locality:
 - Dilsukhnagar
 
 ### Sort Options
+
 - **Sort by Urgency** — shows the most confirmed issues first
 - **Sort by Recent** — shows the latest reports first (default)
 
@@ -78,23 +82,23 @@ Use the **"Filter by Area"** dropdown to see issues only in your locality:
 
 Each report card shows a status badge:
 
-| Status | Meaning |
-|---|---|
-| 🟠 Active | Issue reported, not yet addressed |
-| 🔵 In Review | GHMC has acknowledged the issue |
-| 🟢 Resolved | Issue has been fixed |
+| Status       | Meaning                           |
+| ------------ | --------------------------------- |
+| 🟠 Active    | Issue reported, not yet addressed |
+| 🔵 In Review | GHMC has acknowledged the issue   |
+| 🟢 Resolved  | Issue has been fixed              |
 
 ---
 
 ## Issue Categories
 
-| Category | Examples |
-|---|---|
-| Pothole | Broken roads, craters, damaged surfaces |
-| Garbage | Uncollected waste, overflowing bins, illegal dumping |
+| Category     | Examples                                               |
+| ------------ | ------------------------------------------------------ |
+| Pothole      | Broken roads, craters, damaged surfaces                |
+| Garbage      | Uncollected waste, overflowing bins, illegal dumping   |
 | Waterlogging | Flooded roads, blocked drains, waterlogged underpasses |
-| Streetlight | Broken lights, dark stretches, no lighting |
-| Other | Open manholes, damaged footpaths, anything else |
+| Streetlight  | Broken lights, dark stretches, no lighting             |
+| Other        | Open manholes, damaged footpaths, anything else        |
 
 ---
 

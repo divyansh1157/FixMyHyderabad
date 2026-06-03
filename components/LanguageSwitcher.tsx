@@ -1,25 +1,32 @@
-'use client'
+'use client';
 
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation';
 
 const LANGS = [
-  { code: 'en', label: 'English',   name: 'English' },
-  { code: 'te', label: 'తెలుగు',   name: 'తెలుగు'  },
-  { code: 'ur', label: 'اردو',     name: 'اردو'    },
-]
+  { code: 'en', label: 'English', name: 'English' },
+  { code: 'te', label: 'తెలుగు', name: 'తెలుగు' },
+  { code: 'ur', label: 'اردو', name: 'اردو' },
+];
 
-export default function LanguageSwitcher({ currentLocale }: { currentLocale: string }) {
-  const router   = useRouter()
-  const pathname = usePathname()
+export default function LanguageSwitcher({
+  currentLocale,
+}: {
+  currentLocale: string;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
 
   const switchTo = (locale: string) => {
-    const segments = pathname.split('/')
-    segments[1] = locale
-    router.push(segments.join('/'))
-  }
+    const segments = pathname.split('/');
+    segments[1] = locale;
+    router.push(segments.join('/'));
+  };
 
   return (
-    <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border-2 border-slate-200" dir="ltr">
+    <div
+      className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border-2 border-slate-200"
+      dir="ltr"
+    >
       {LANGS.map(({ code, label, name }) => (
         <button
           key={code}
@@ -36,5 +43,5 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: str
         </button>
       ))}
     </div>
-  )
+  );
 }

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-06-03
 
 ### Added
+
 - Initial release of FixMyHyderabad platform
 - Multi-language support (English, Telugu, Urdu)
 - Civic issue reporting system
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Supabase backend integration
 
 ### Features
+
 - Report submission with image upload
 - Issue confirmation voting system
 - Real-time feed updates via Supabase Realtime

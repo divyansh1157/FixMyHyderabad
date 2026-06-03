@@ -9,7 +9,11 @@ function getKeys(obj, prefix = '') {
   let keys = [];
   for (const key in obj) {
     const fullKey = prefix ? `${prefix}.${key}` : key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+    if (
+      typeof obj[key] === 'object' &&
+      obj[key] !== null &&
+      !Array.isArray(obj[key])
+    ) {
       keys = keys.concat(getKeys(obj[key], fullKey));
     } else {
       keys.push(fullKey);
@@ -29,7 +33,7 @@ function checkI18n() {
   const sourceKeys = getKeys(sourceContent);
   let hasError = false;
 
-  TARGET_LOCALES.forEach(localeFile => {
+  TARGET_LOCALES.forEach((localeFile) => {
     const targetPath = path.join(MESSAGES_DIR, localeFile);
     if (!fs.existsSync(targetPath)) {
       console.warn(`Target locale file missing: ${localeFile}`);
@@ -39,9 +43,11 @@ function checkI18n() {
     const targetContent = JSON.parse(fs.readFileSync(targetPath, 'utf8'));
     const targetKeys = new Set(getKeys(targetContent));
 
-    const missingKeys = sourceKeys.filter(key => !targetKeys.has(key));
+    const missingKeys = sourceKeys.filter((key) => !targetKeys.has(key));
     if (missingKeys.length > 0) {
-      console.error(`❌ Locale ${localeFile} is missing keys:\n  - ${missingKeys.join('\n  - ')}`);
+      console.error(
+        `❌ Locale ${localeFile} is missing keys:\n  - ${missingKeys.join('\n  - ')}`
+      );
       hasError = true;
     } else {
       console.log(`✅ Locale ${localeFile} is up to date.`);

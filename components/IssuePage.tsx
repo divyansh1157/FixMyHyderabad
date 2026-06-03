@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { useTranslations } from 'next-intl'
-import { Report, Comment } from '@/lib/types'
-import IssueDetail from './IssueDetail'
-import CommentsSection from './CommentsSection'
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Report, Comment } from '@/lib/types';
+import IssueDetail from './IssueDetail';
+import CommentsSection from './CommentsSection';
 
 interface IssuePageClientProps {
-  report: Report
-  sessionId: string
-  isConfirmedInitial: boolean
-  locale: string
-  comments: Comment[]
+  report: Report;
+  sessionId: string;
+  isConfirmedInitial: boolean;
+  locale: string;
+  comments: Comment[];
 }
 
 export default function IssuePageClient({
@@ -21,7 +21,7 @@ export default function IssuePageClient({
   locale,
   comments,
 }: IssuePageClientProps) {
-  const t = useTranslations('details')
+  const t = useTranslations('details');
 
   return (
     <div className="space-y-6">
@@ -46,7 +46,7 @@ export default function IssuePageClient({
             isConfirmedInitial={isConfirmedInitial}
           />
         </div>
-        
+
         {/* Right Interactive Side: Multi-generational Citizen Comments Forum Widget */}
         <div className="lg:col-span-1 bg-white border-2 border-slate-200 rounded-xl p-5 shadow-xs">
           <CommentsSection
@@ -57,5 +57,5 @@ export default function IssuePageClient({
         </div>
       </div>
     </div>
-  )
+  );
 }

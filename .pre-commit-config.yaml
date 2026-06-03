@@ -17,18 +17,23 @@ repos:
       - id: prettier
         types_or: [typescript, javascript, json, markdown]
 
-  - repo: local
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.0.0
     hooks:
       - id: eslint
-        name: eslint
-        entry: npx eslint
-        language: system
-        types: [javascript, typescript]
-        pass_filenames: true
-        stages: [commit]
+        files: \.[jt]sx?$
+        types: [file]
+        additional_dependencies:
+          - eslint@9.0.0
+          - eslint-config-next@16.2.6
+          - typescript@5.0.0
+          - "@typescript-eslint/parser"
+          - "@typescript-eslint/eslint-plugin"
 
+  - repo: local
+    hooks:
       - id: type-check
-        name: TypeScript type check
+        name: type-check
         entry: npm run typecheck
         language: system
         pass_filenames: false
