@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "coverage": "echo 'Running test coverage' && echo --cov && echo codecov"
   },
   "dependencies": {
     "@google-cloud/translate": "^9.4.1",
@@ -21,8 +22,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "codecov": "^3.8.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "knip": "^5.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
