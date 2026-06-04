@@ -79,17 +79,18 @@
     "Sanathnagar": "Sanathnagar",
     "Secunderabad": "Secunderabad",
     "Somajiguda": "Somajiguda",
+    "SR Nagar": "SR Nagar",
     "Tarnaka": "Tarnaka",
     "Tolichowki": "Tolichowki",
     "Uppal": "Uppal"
   },
-  "filters": {  
+  "filters": {
     "allNeighborhoods": "All Neighborhoods",
     "sortBy": "Sort by",
     "recent": "Clock Recent",
     "urgent": "Fire Urgent"
   },
-  
+
   "details": {
     "back": "← Back to Feed",
     "confirmations": "Confirmations",
@@ -100,7 +101,7 @@
     "daysAgo": "{d}d ago",
     "confirmTitle": "Is this issue real?",
     "confirmSubtitle": "Confirming helps prioritise this for municipal action",
-    "confirmButton": "Thumbs Up Yes, Confirm this Issue",
+    "confirmButton": "👍 Confirm this Issue",
     "confirmedButton": "✓ You Confirmed this",
     "peopleConfirmed": "{count} people confirmed this",
     "escalationNote": "{count}/100 confirmations for priority escalation"

@@ -1,31 +1,41 @@
-'use client'
+'use client';
 
-import { useTranslations } from 'next-intl'
-import { SortOption } from '@/lib/types'
+import { useTranslations } from 'next-intl';
+import { SortOption } from '@/lib/types';
 
 interface FeedFiltersProps {
-  area: string
-  sortBy: SortOption
-  onAreaChange: (area: string) => void
-  onSortChange: (sort: SortOption) => void
-  layout: 'sidebar' | 'inline'
+  area: string;
+  sortBy: SortOption;
+  onAreaChange: (area: string) => void;
+  onSortChange: (sort: SortOption) => void;
+  layout: 'sidebar' | 'inline';
 }
 
 // A complete list of target Hyderabad sectors for filtering
 const AREAS = [
-  'All', 'Madhapur', 'Gachibowli', 'Kondapur', 'Kukatpally', 
-  'Ameerpet', 'Banjara Hills', 'Jubilee Hills', 'Dilsukhnagar', 'LB Nagar', 'Miyapur', 'SR Nagar'
-]
+  'All',
+  'Madhapur',
+  'Gachibowli',
+  'Kondapur',
+  'Kukatpally',
+  'Ameerpet',
+  'Banjara Hills',
+  'Jubilee Hills',
+  'Dilsukhnagar',
+  'LB Nagar',
+  'Miyapur',
+  'SR Nagar',
+];
 
 export default function FeedFilters({
   area,
   sortBy,
   onAreaChange,
   onSortChange,
-  layout
+  layout,
 }: FeedFiltersProps) {
-  const t = useTranslations('feed')
-  const ta = useTranslations('areas')
+  const t = useTranslations('feed');
+  const ta = useTranslations('areas');
 
   if (layout === 'inline') {
     return (
@@ -41,7 +51,9 @@ export default function FeedFilters({
           >
             {AREAS.map((item) => (
               <option key={item} value={item}>
-                {item === 'All' ? t('allNeighborhoods') || 'All Neighborhoods' : ta(item)}
+                {item === 'All'
+                  ? t('allNeighborhoods') || 'All Neighborhoods'
+                  : ta(item)}
               </option>
             ))}
           </select>
@@ -75,7 +87,7 @@ export default function FeedFilters({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -83,7 +95,8 @@ export default function FeedFilters({
       {/* Area Selector Segment */}
       <div>
         <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-2 flex items-center gap-1">
-          <span>📍</span> <span>{t('filterByArea') || 'All Neighborhoods'}</span>
+          <span>📍</span>{' '}
+          <span>{t('filterByArea') || 'All Neighborhoods'}</span>
         </label>
         <select
           value={area}
@@ -92,7 +105,9 @@ export default function FeedFilters({
         >
           {AREAS.map((item) => (
             <option key={item} value={item}>
-              {item === 'All' ? t('allNeighborhoods') || 'All Neighborhoods' : ta(item)}
+              {item === 'All'
+                ? t('allNeighborhoods') || 'All Neighborhoods'
+                : ta(item)}
             </option>
           ))}
         </select>
@@ -130,5 +145,5 @@ export default function FeedFilters({
         </div>
       </div>
     </div>
-  )
+  );
 }

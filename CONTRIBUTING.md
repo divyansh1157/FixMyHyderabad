@@ -2,17 +2,18 @@
 
 ## Team
 
-| Member | Name | Role |
-|---|---|---|
-| Member 1 | Divyansh | Backend, Database & API Integration |
-| Member 2 | Srujan | Frontend Layout & Live Pulse Feed |
-| Member 3 | Akshara | Report Submission & Location Services |
+| Member   | Name     | Role                                  |
+| -------- | -------- | ------------------------------------- |
+| Member 1 | Divyansh | Backend, Database & API Integration   |
+| Member 2 | Srujan   | Frontend Layout & Live Pulse Feed     |
+| Member 3 | Akshara  | Report Submission & Location Services |
 
 ---
 
 ## Who Owns What
 
 ### Divyansh — Backend, Database & API Integration
+
 - Supabase project setup and schema design
 - `lib/supabase.ts` — database client
 - `lib/types.ts` — shared TypeScript types
@@ -23,6 +24,7 @@
 - Vercel deployment and GitHub CI setup
 
 ### Srujan — Frontend Layout & Live Pulse Feed
+
 - Next.js project scaffold and Tailwind CSS setup
 - Main dashboard layout (mobile-first)
 - Live feed component using `getReports()` and `useRealtimeFeed()`
@@ -31,6 +33,7 @@
 - Report status badges (active / in_review / resolved)
 
 ### Akshara — Report Submission & Location Services
+
 - Report submission form (category, title, description, image)
 - Browser Geolocation API integration
 - Form wired to `createReport()` with image upload and error handling

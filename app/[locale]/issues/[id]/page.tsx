@@ -1,41 +1,45 @@
-import { getReportDetail, getComments, getConfirmedBySession } from '@/lib/actions'
-import { notFound } from 'next/navigation'
-import IssueDetail from '@/components/IssueDetail'
-import CommentsSection from '@/components/CommentsSection'
-import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { useTranslations } from 'next-intl'
-import { getTranslations } from 'next-intl/server'
+import {
+  getReportDetail,
+  getComments,
+  getConfirmedBySession,
+} from '@/lib/actions';
+import { notFound } from 'next/navigation';
+import IssueDetail from '@/components/IssueDetail';
+import CommentsSection from '@/components/CommentsSection';
+import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 interface IssuePageProps {
-  params: Promise<{ locale: string; id: string }>
+  params: Promise<{ locale: string; id: string }>;
 }
 
 export default async function IssuePage({ params }: IssuePageProps) {
-  const { locale, id } = await params
-  const t = await getTranslations('details')
+  const { locale, id } = await params;
+  const t = await getTranslations('details');
 
   // Fetch report
-  let report
+  let report;
   try {
-    report = await getReportDetail(id)
+    report = await getReportDetail(id);
   } catch {
-    notFound()
+    notFound();
   }
-  if (!report) notFound()
+  if (!report) notFound();
 
   // Fetch comments
-  const comments = await getComments(id, 50)
+  const comments = await getComments(id, 50);
 
   // Read session cookie on the server properly — no typeof window needed
-  const cookieStore = await cookies()
-  const sessionId   = cookieStore.get('session_id')?.value ?? ''
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get('session_id')?.value ?? '';
 
   // Check if already confirmed
-  const confirmedIds  = sessionId ? await getConfirmedBySession(sessionId) : []
-  const isConfirmed   = confirmedIds.includes(id)
+  const confirmedIds = sessionId ? await getConfirmedBySession(sessionId) : [];
+  const isConfirmed = confirmedIds.includes(id);
 
   return (
     <div>
@@ -51,10 +55,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
 
       {/* Issue detail + confirm button */}
       <div className="mb-8">
-        <IssueDetail
-          report={report}
-          isConfirmedInitial={isConfirmed}
-        />
+        <IssueDetail report={report} isConfirmedInitial={isConfirmed} />
       </div>
 
       {/* Comments */}
@@ -64,5 +65,5 @@ export default async function IssuePage({ params }: IssuePageProps) {
         initialComments={comments}
       />
     </div>
-  )
+  );
 }

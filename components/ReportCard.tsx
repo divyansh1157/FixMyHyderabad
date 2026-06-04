@@ -1,34 +1,66 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useTranslations } from 'next-intl'
-import { Report, Category } from '@/lib/types'
-import { confirmIssue } from '@/lib/actions'
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Report, Category } from '@/lib/types';
+import { confirmIssue } from '@/lib/actions';
 
 // Add new categories here if you add them to the DB
-const CAT: Record<Category, { emoji: string; label_key: string; pill: string }> = {
-  Pothole:      { emoji: '🕳️', label_key: 'Pothole',      pill: 'bg-orange-50 text-orange-700 border-orange-200' },
-  Garbage:      { emoji: '🗑️', label_key: 'Garbage',      pill: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  Waterlogging: { emoji: '🌊', label_key: 'Waterlogging', pill: 'bg-blue-50 text-blue-700 border-blue-200' },
-  Streetlight:  { emoji: '💡', label_key: 'Streetlight',  pill: 'bg-amber-50 text-amber-700 border-amber-200' },
-  Other:        { emoji: '📍', label_key: 'Other',        pill: 'bg-stone-100 text-stone-700 border-stone-200' },
-}
+const CAT: Record<
+  Category,
+  { emoji: string; label_key: string; pill: string }
+> = {
+  Pothole: {
+    emoji: '🕳️',
+    label_key: 'Pothole',
+    pill: 'bg-orange-50 text-orange-700 border-orange-200',
+  },
+  Garbage: {
+    emoji: '🗑️',
+    label_key: 'Garbage',
+    pill: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  },
+  Waterlogging: {
+    emoji: '🌊',
+    label_key: 'Waterlogging',
+    pill: 'bg-blue-50 text-blue-700 border-blue-200',
+  },
+  Streetlight: {
+    emoji: '💡',
+    label_key: 'Streetlight',
+    pill: 'bg-amber-50 text-amber-700 border-amber-200',
+  },
+  Other: {
+    emoji: '📍',
+    label_key: 'Other',
+    pill: 'bg-stone-100 text-stone-700 border-stone-200',
+  },
+};
 
 const URGENCY = (n: number) => {
-  if (n >= 20) return { label: 'CRITICAL', cls: 'bg-red-50 text-red-600 border-red-200' }
-  if (n >= 10) return { label: 'HIGH',     cls: 'bg-orange-50 text-orange-600 border-orange-200' }
-  if (n >= 5)  return { label: 'MODERATE', cls: 'bg-yellow-50 text-yellow-700 border-yellow-200' }
-  return null
-}
+  if (n >= 20)
+    return { label: 'CRITICAL', cls: 'bg-red-50 text-red-600 border-red-200' };
+  if (n >= 10)
+    return {
+      label: 'HIGH',
+      cls: 'bg-orange-50 text-orange-600 border-orange-200',
+    };
+  if (n >= 5)
+    return {
+      label: 'MODERATE',
+      cls: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    };
+  return null;
+};
 
 interface ReportCardProps {
-  report: Report
-  sessionId: string
-  isConfirmedInitial: boolean
-  onConfirmStateChange: (id: string) => void
-  locale: string   // needed for the "View Details" link
+  report: Report;
+  sessionId: string;
+  isConfirmedInitial: boolean;
+  onConfirmStateChange: (id: string) => void;
+  locale: string; // needed for the "View Details" link
 }
 
 export default function ReportCard({
@@ -38,46 +70,45 @@ export default function ReportCard({
   onConfirmStateChange,
   locale,
 }: ReportCardProps) {
-  const t  = useTranslations('card')
-  const tc = useTranslations('categories')
+  const t = useTranslations('card');
+  const tc = useTranslations('categories');
 
-  const [confirmed, setConfirmed] = useState(isConfirmedInitial)
-  const [count, setCount]         = useState(report.confirmations_count)
-  const [loading, setLoading]     = useState(false)
-  const [imgErr, setImgErr]       = useState(false)
+  const [confirmed, setConfirmed] = useState(isConfirmedInitial);
+  const [count, setCount] = useState(report.confirmations_count);
+  const [loading, setLoading] = useState(false);
+  const [imgErr, setImgErr] = useState(false);
 
   const handleConfirm = async () => {
-    if (confirmed || loading || !sessionId) return
-    setConfirmed(true)
-    setCount((p) => p + 1)
-    setLoading(true)
-    const res = await confirmIssue(report.id, sessionId)
+    if (confirmed || loading || !sessionId) return;
+    setConfirmed(true);
+    setCount((p) => p + 1);
+    setLoading(true);
+    const res = await confirmIssue(report.id, sessionId);
     if (!res.success && !res.already_confirmed) {
-      setConfirmed(false)
-      setCount((p) => Math.max(0, p - 1))
+      setConfirmed(false);
+      setCount((p) => Math.max(0, p - 1));
     } else if (res.new_count !== undefined) {
-      setCount(res.new_count)
+      setCount(res.new_count);
     }
-    onConfirmStateChange(report.id)
-    setLoading(false)
-  }
+    onConfirmStateChange(report.id);
+    setLoading(false);
+  };
 
   const timeAgo = (iso: string) => {
-    const diff = Date.now() - new Date(iso).getTime()
-    const m = Math.floor(diff / 60000)
-    if (m < 1)  return t('justNow')
-    if (m < 60) return t('minutesAgo', { m })
-    const h = Math.floor(m / 60)
-    if (h < 24) return t('hoursAgo', { h })
-    return t('daysAgo', { d: Math.floor(h / 24) })
-  }
+    const diff = Date.now() - new Date(iso).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return t('justNow');
+    if (m < 60) return t('minutesAgo', { m });
+    const h = Math.floor(m / 60);
+    if (h < 24) return t('hoursAgo', { h });
+    return t('daysAgo', { d: Math.floor(h / 24) });
+  };
 
-  const cat     = CAT[report.category] ?? CAT.Other
-  const urgency = URGENCY(count)
+  const cat = CAT[report.category] ?? CAT.Other;
+  const urgency = URGENCY(count);
 
   return (
     <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 h-full flex flex-col">
-
       {/* Card image */}
       {report.image_url && !imgErr && (
         <div className="relative w-full h-36 sm:h-44 bg-slate-100 shrink-0">
@@ -93,14 +124,17 @@ export default function ReportCard({
       )}
 
       <div className="p-4 flex flex-col flex-1">
-
         {/* Badges */}
         <div className="flex items-center gap-1.5 flex-wrap mb-2.5">
-          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${cat.pill}`}>
+          <span
+            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${cat.pill}`}
+          >
             {cat.emoji} {tc(cat.label_key as any)}
           </span>
           {urgency && (
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${urgency.cls}`}>
+            <span
+              className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${urgency.cls}`}
+            >
               {urgency.label}
             </span>
           )}
@@ -135,10 +169,15 @@ export default function ReportCard({
           <div className="flex items-center justify-between gap-2">
             {/* Status dot */}
             <div className="flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                report.status === 'active'    ? 'bg-green-500' :
-                report.status === 'in_review' ? 'bg-blue-500'  : 'bg-zinc-400'
-              }`} />
+              <span
+                className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                  report.status === 'active'
+                    ? 'bg-green-500'
+                    : report.status === 'in_review'
+                      ? 'bg-blue-500'
+                      : 'bg-zinc-400'
+                }`}
+              />
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">
                 {report.status === 'in_review' ? t('inReview') : t('active')}
               </span>
@@ -175,5 +214,5 @@ export default function ReportCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

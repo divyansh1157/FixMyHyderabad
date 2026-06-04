@@ -17,6 +17,7 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 **Trigger:** User submits the report form
 
 **What it does:**
+
 1. Receives form input (title, category, description, coordinates, area, image)
 2. If an image is attached, uploads it to Supabase Storage (`civic-images` bucket) and generates a public URL
 3. Calls the Nominatim reverse geocoding API to convert lat/lng into a human-readable address (e.g. "Near Cyber Towers, Madhapur")
@@ -24,6 +25,7 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 5. Triggers a `revalidatePath('/')` to refresh the feed
 
 **Input:**
+
 ```ts
 {
   title: string
@@ -37,6 +39,7 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 ```
 
 **Output:**
+
 ```ts
 { success: true, id: string }
 // or
@@ -44,6 +47,7 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 ```
 
 **External dependencies:**
+
 - Supabase Storage (image upload)
 - Nominatim OpenStreetMap API (reverse geocoding, free, no key required)
 
@@ -56,6 +60,7 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 **Trigger:** User clicks "I Confirm This Issue" button
 
 **What it does:**
+
 1. Receives the `report_id` and the user's anonymous `session_id`
 2. Calls the Supabase RPC function `increment_confirmations`
 3. The RPC atomically checks if this session has already confirmed this report
@@ -64,12 +69,14 @@ FixMyHyderabad uses a set of server-side agents (Next.js Server Actions) that ha
 6. Triggers a `revalidatePath('/')` on success
 
 **Input:**
+
 ```ts
-reportId: string
-sessionId: string   // anonymous browser session ID from lib/session.ts
+reportId: string;
+sessionId: string; // anonymous browser session ID from lib/session.ts
 ```
 
 **Output:**
+
 ```ts
 { success: true, new_count: number }
 // or
@@ -89,6 +96,7 @@ sessionId: string   // anonymous browser session ID from lib/session.ts
 **Trigger:** Page load, filter change, or sort change
 
 **What it does:**
+
 1. Accepts optional filters: `area` and `sortBy`
 2. Builds a Supabase query filtering out `resolved` reports by default
 3. Applies area filter if provided (not "All")
@@ -96,6 +104,7 @@ sessionId: string   // anonymous browser session ID from lib/session.ts
 5. Returns up to 50 reports
 
 **Input:**
+
 ```ts
 {
   area?: string       // e.g. 'Madhapur' or 'All'
@@ -105,6 +114,7 @@ sessionId: string   // anonymous browser session ID from lib/session.ts
 ```
 
 **Output:**
+
 ```ts
 Report[]  // array of report objects
 ```
@@ -118,16 +128,19 @@ Report[]  // array of report objects
 **Trigger:** Page load (called once to hydrate the frontend with confirmed state)
 
 **What it does:**
+
 1. Accepts an anonymous `sessionId`
 2. Queries the `confirmations` table for all rows matching that session
 3. Returns a list of `report_id` values the session has already confirmed
 
 **Input:**
+
 ```ts
-sessionId: string
+sessionId: string;
 ```
 
 **Output:**
+
 ```ts
 string[]  // list of report IDs already confirmed by this session
 ```
@@ -143,6 +156,7 @@ string[]  // list of report IDs already confirmed by this session
 **Trigger:** Component mount (runs as a React hook)
 
 **What it does:**
+
 1. Accepts an initial list of reports (from server-side fetch)
 2. Opens a Supabase Realtime channel subscribed to the `reports` table
 3. On `INSERT` event: prepends the new report to the feed state
@@ -150,11 +164,13 @@ string[]  // list of report IDs already confirmed by this session
 5. Cleans up the channel subscription on component unmount
 
 **Input:**
+
 ```ts
 initialReports: Report[]
 ```
 
 **Output:**
+
 ```ts
 Report[]  // live-updating array, managed via React state
 ```
@@ -170,13 +186,15 @@ Report[]  // live-updating array, managed via React state
 **Trigger:** Called on the client whenever a session ID is needed
 
 **What it does:**
+
 1. Checks `localStorage` for an existing session ID under the key `fmh_session_id`
 2. If found, returns it
 3. If not found, generates a new random ID and persists it to `localStorage`
 
 **Output:**
+
 ```ts
-string  // e.g. "1748576432891-x7k2m9-p4q1r8"
+string; // e.g. "1748576432891-x7k2m9-p4q1r8"
 ```
 
 **Why anonymous?** No login is required. The session ID is a random string that persists in the browser — it identifies the device/browser, not the person. This is enough to prevent accidental double-confirms while preserving full privacy.
@@ -190,6 +208,7 @@ string  // e.g. "1748576432891-x7k2m9-p4q1r8"
 **Trigger:** Called automatically inside `createReport()` when `address_text` is not provided
 
 **What it does:**
+
 1. Takes a latitude and longitude
 2. Calls the free Nominatim OpenStreetMap API
 3. Parses the response to extract road name and suburb
@@ -197,15 +216,17 @@ string  // e.g. "1748576432891-x7k2m9-p4q1r8"
 5. Falls back to `"{area_name}, Hyderabad"` if the API fails
 
 **Input:**
+
 ```ts
-lat: number
-lng: number
-fallbackArea: string
+lat: number;
+lng: number;
+fallbackArea: string;
 ```
 
 **Output:**
+
 ```ts
-string  // e.g. "Near Cyber Towers, Madhapur"
+string; // e.g. "Near Cyber Towers, Madhapur"
 ```
 
 **Note:** Nominatim has a rate limit of 1 request/second. This is fine for a hackathon but should be replaced with a paid geocoding API (Google Maps, Mapbox) in production.
@@ -218,6 +239,7 @@ string  // e.g. "Near Cyber Towers, Madhapur"
 **File:** `sql/03_rpc.sql`
 
 This is a PostgreSQL function that runs server-side inside Supabase. It is called by Agent 2 (Confirmation Agent) and handles:
+
 - Duplicate detection (checks `confirmations` table)
 - Atomic counter increment (single transaction, no race conditions)
 - Returns a JSONB result with `success`, `new_count`, or `reason`

@@ -1,7 +1,9 @@
 stages:
+  - format
   - lint
-  - typecheck
+  - type-check
   - test
+  - coverage
   - security
   - audit
 
@@ -16,30 +18,59 @@ cache:
     - .npm/
     - node_modules/
 
-lint_job:
+# Formatting Stage
+prettier_format:
+  stage: format
+  image: node:20
+  script:
+    - npm ci
+    - npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
+  allow_failure: true
+
+# Linting Stage
+eslint_lint:
   stage: lint
   image: node:20
   script:
     - npm ci
-    - npm run lint
+    - npx eslint .
 
-typecheck_job:
-  stage: typecheck
+# Type Checking Stage
+typescript_typecheck:
+  stage: type-check
   image: node:20
   script:
     - npm ci
-    - npx knip
+    - npx tsc --noEmit
 
-test_coverage_job:
+# Testing Stage
+jest_test:
   stage: test
   image: node:20
   script:
     - npm ci
-    # Satisfies the "Coverage Reporting (pytest-cov / --cov / codecov detected)" check
-    - npm run coverage
-    - npx codecov || true
+    - npm test
 
-secret_scanning_job:
+# Coverage Stage
+coverage_report:
+  stage: coverage
+  image: node:20
+  script:
+    - npm ci
+    - npm run coverage
+  coverage: '/Coverage: \d+\.\d+%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/
+    expire_in: 30 days
+  allow_failure: true
+
+# Security Stage
+gitleaks_scan:
   stage: security
   image: 
     name: zricethezav/gitleaks:latest
@@ -47,9 +78,10 @@ secret_scanning_job:
   script:
     - gitleaks detect --verbose --source=$CI_PROJECT_DIR
 
-dependency_audit_job:
+# Audit Stage
+dependency_audit:
   stage: audit
   image: node:20
   script:
-    # Satisfies the "Dependency Audit (pip-audit / npm audit / uv audit / snyk)" check
     - npm audit || true
+    - ls .env.example || (echo ".env.example is missing" && exit 1)

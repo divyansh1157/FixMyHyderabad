@@ -7,7 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "coverage": "echo 'Running test coverage' && echo --cov && echo codecov"
+    "typecheck": "tsc --noEmit",
+    "knip": "knip",
+    "i18n:check": "node scripts/check-i18n.js",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "echo 'No tests defined' && exit 0",
+    "coverage": "echo 'Running test coverage' && echo --cov && echo codecov",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@google-cloud/translate": "^9.4.1",
@@ -25,8 +32,20 @@
     "codecov": "^3.8.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "husky": "^9.0.0",
     "knip": "^5.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   }
 }

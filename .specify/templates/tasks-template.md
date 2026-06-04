@@ -1,6 +1,7 @@
 # FixMyHyderabad Tasks Template
 
 ## Task Categorization
+
 - Feature Development
 - Bug Fix
 - Verification Logic (Principle 1)
