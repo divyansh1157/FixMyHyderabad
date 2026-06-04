@@ -1,29 +1,23 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to the **FixMyHyderabad** platform will be documented in this file. This project adheres to Semantic Versioning standards.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+---
 
-## [0.1.0] - 2026-06-03
+## [1.0.0] - 2026-06-03
 
-### Added
+###  Features & Core Capabilities
+- **Multi-Language Architecture:** Integrated full multilingual dynamic translation capabilities utilizing `next-intl` throughout the primary core layout panels.
+- **Urdu UI Translation Support:** Merged complete localization structures adding dynamic interface parameters for Urdu script processing.
+- **Interactive Report Form:** Developed an issue-reporting engine supporting geolocation metadata collection and direct visual image file uploads.
+- **Dynamic Localized Routing:** Migrated general pages into functional nested `[locale]` dynamic routing trees to streamline edge rendering.
 
-- Initial release of FixMyHyderabad platform
-- Multi-language support (English, Telugu, Urdu)
-- Civic issue reporting system
-- Real-time issue feed with confirmations
-- Issue categorization (Pothole, Garbage, Waterlogging, Streetlight, Other)
-- Location-based filtering by area
-- Issue status tracking (Active, In Review, Resolved)
-- Anonymous user sessions
-- Reverse geocoding for address detection
-- Supabase backend integration
+###  UI & Layout Refinements
+- **Tailwind Setup Integration:** Upgraded styling utilities to utilize Tailwind CSS layouts with explicit class safelisting for responsive elements.
+- **Navigation Cleanup:** Removed obsolete structural components from top navigation headers to prioritize screen real estate.
+- **Component Stabilization:** Reworked modular layout files to optimize rendering performance across modern fluid mobile Viewports.
 
-### Features
-
-- Report submission with image upload
-- Issue confirmation voting system
-- Real-time feed updates via Supabase Realtime
-- Responsive UI design
-- Accessible neutral color scheme
+###  Repository Health & Configuration Fixes
+- **File Naming Compliance:** Standardized project documentation structure by correcting casing variants (Renamed `USERMANUAL.md` to `USER_MANUAL.md`).
+- **Comment Strategy Update:** Patched comment tables inside raw PostgreSQL schemas to clearly map localization tracking hooks.
+- **CSS Module Integrity:** Resolved relative path layout breakages causing build failures inside the main layout compiler shell.
