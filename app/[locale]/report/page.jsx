@@ -42,6 +42,7 @@ const AREAS = [
   'Sanathnagar',
   'Secunderabad',
   'Somajiguda',
+  'SR Nagar',
   'Tarnaka',
   'Tolichowki',
   'Uppal',

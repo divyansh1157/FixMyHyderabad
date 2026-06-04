@@ -51,7 +51,7 @@
     "MODERATE": "درمیانہ",
     "ROUTINE": "معمولی"
   },
-  "neighborhoods": {
+  "areas": {
     "Abids": "عابدز",
     "Ameerpet": "امیرپیٹ",
     "Banjara Hills": "بنجارہ ہلز",
@@ -76,19 +76,13 @@
     "Nacharam": "ناچارم",
     "Nizampet": "نظام پیٹ",
     "Rai Durg": "رائے درگ",
+    "SR Nagar": "ایس آر نگر",
     "Sanathnagar": "سنھت نگر",
     "Secunderabad": "سکندرآباد",
     "Somajiguda": "سوماجی گوڑہ",
     "Tarnaka": "تارناکہ",
     "Tolichowki": "ٹولی چوکی",
     "Uppal": "اوپل"
-  },
-  "categories": {
-    "Pothole": "گڑھا",
-    "Garbage": "کوڑا کرکٹ",
-    "Waterlogging": "پانی کا جمع ہونا",
-    "Streetlight": "اسٹریٹ لائٹ",
-    "Other": "دیگر"
   },
   "filters": {
     "allNeighborhoods": "تمام علاقے",
